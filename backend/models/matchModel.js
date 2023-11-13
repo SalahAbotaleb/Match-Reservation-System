@@ -10,8 +10,8 @@ const matchSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  stadiumKey: {
-    type: [Schema.Types.ObjectId],
+  stadium: {
+    type: Schema.Types.ObjectId,
     ref: "Stadium",
   },
   reservationMap: {
@@ -27,8 +27,8 @@ const matchSchema = new mongoose.Schema({
     required: true,
   },
   linesman: {
-    type: String,
+    type: [String],
     required: true,
-  },
+  }
 });
 module.exports = mongoose.model("Match", matchSchema);
