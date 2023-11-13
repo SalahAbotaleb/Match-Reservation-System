@@ -6,4 +6,4 @@ const referees = ['Ahmed El Ghandour',
     'Ahmed El Maghraby',
     'Ahmed El Adly'];
 
-modules.exports.referees = referees;
+module.exports.referees = referees;

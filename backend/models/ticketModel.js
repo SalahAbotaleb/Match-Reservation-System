@@ -1,7 +1,8 @@
 // Ticket (match, locations, price of totals)
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const ticketSchema = new mongoose.Schema({
+const ticketSchema = new Schema({
   match: {
     type: Schema.Types.ObjectId,
     ref: "Match",

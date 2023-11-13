@@ -6,9 +6,9 @@ const stadiumModel = require('../models/stadiumModel');
 const teamModel = require('../models/teamModel');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/TicketReservation');
+mongoose.connect('mongodb://127.0.0.1:27017/TicketReservation');
 const db = mongoose.connection;
-db.on("connect", () => {
+db.once("connected", () => {
     console.log("connected to db");
 });
 db.on("error", (err) => {
@@ -57,24 +57,26 @@ const randomMatchesBuilder = async () => {
         const awayTeam = teams[awayTeamIndex];
         const startDate = new Date(2023, 12, 12);
         const endDate = new Date(2024, 5, 25);
-        const stadiumReference = await stadiumModel.findOne({ name: stadium });
-        const match = new matchModel({
-            homeTeam: homeTeam,
-            awayTeam: awayTeam,
-            stadium: stadiumReference,
+        const stadiumReference = await stadiumModel.findOne({ name: stadium.name });
+        const newMatch = {
+            homeTeam: homeTeam.name,
+            awayTeam: awayTeam.name,
+            stadium: stadiumReference._id,
             reservationMap: [],
             date: getRandomDate(startDate, endDate),
             referee: referee,
             linesman: [linesMan[0], linesMan[1]]
-        });
+        };
+        const match = new matchModel(newMatch);
         await match.save();
     }
 }
 
 const seed = async () => {
+    await db.dropDatabase();
     await saveStadiums();
     await saveTeams();
     await randomMatchesBuilder();
+    await db.close();
 }
-
 seed();

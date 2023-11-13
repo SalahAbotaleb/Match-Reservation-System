@@ -91,4 +91,4 @@ const teams = [
     }
 ];
 
-modules.exports.teams = teams;
+module.exports.teams = teams;
