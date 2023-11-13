@@ -15,7 +15,7 @@ const matchSchema = new mongoose.Schema({
     ref: "Stadium",
   },
   reservationMap: {
-    type: [{ row: Number, coloumn: Number }],
+    type: [{ row: Number, column: Number }],
     required: true,
   },
   date: {
