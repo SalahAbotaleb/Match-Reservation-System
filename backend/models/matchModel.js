@@ -6,4 +6,29 @@ const matchSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  awayTeam: {
+    type: String,
+    required: true,
+  },
+  stadiumKey: {
+    type: [Schema.Types.ObjectId],
+    ref: "Stadium",
+  },
+  reservationMap: {
+    type: [{ row: Number, coloumn: Number }],
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  referee: {
+    type: String,
+    required: true,
+  },
+  linesman: {
+    type: String,
+    required: true,
+  },
 });
+module.exports = mongoose.model("Match", matchSchema);
