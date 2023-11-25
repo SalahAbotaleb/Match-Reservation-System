@@ -1,9 +1,14 @@
 import './App.css';
 
+import Footer from "./component/layout/Footer/Footer";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 function App() {
   return (
-    <h1> intial start  </h1>
-  );
+    <Footer />   
+    
+    );
 }
 
 export default App;
