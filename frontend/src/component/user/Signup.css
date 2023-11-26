@@ -1,7 +1,7 @@
 .Container {
     width: 100vw;
     height: 100vh;
-    display: grid; 
+    display: grid;
     font-family: 'Quicksand';
     font-weight: bold;; 
     grid-template-columns: 2fr 5fr;
@@ -117,6 +117,7 @@ Rose Red
 .loginBtn {
     margin-top: 40px;
     background-color: white;
+    color: black;
     border: solid 1px black;
     width: 50%;
     height: 40px;
