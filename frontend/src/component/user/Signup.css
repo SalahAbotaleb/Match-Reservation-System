@@ -1,0 +1,155 @@
+.Container {
+    width: 100vw;
+    height: 100vh;
+    display: grid; 
+    font-family: 'Quicksand';
+    font-weight: bold;; 
+    grid-template-columns: 2fr 5fr;
+    grid-template-rows: 1fr;
+    background-color: #F9E4D0; 
+
+    
+}
+#tsparticles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    z-index: -1;
+}
+.SignupForm p {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    color: #8d6e70;
+}
+.SignupForm{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-column: 2;
+    font-weight: bold;
+}
+.header1{
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #9C3940;
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    
+
+}
+input {
+    width: 400px;
+    height: 50px;
+    border-radius: 6px;
+    background-color: #ebebe9;
+    margin-bottom: 10px;
+    
+    color: #242424;
+}
+
+.Firstname {
+    background-image: url(../../images/user.svg);
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    padding-left: 40px;
+    font-size: 20px;
+    background-size: 23px;
+    border: solid 1px #FDF5E6;
+}
+.password {
+    background-image: url(../../images/password.svg);
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    padding-left: 40px;
+    font-size: 20px;
+    background-size: 23px;
+    border: solid 1px #FDF5E6;
+}
+
+/* }
+
+used 
+color pallet 
+Rose Quartz
+#FBE7E0
+
+Champagne
+#F9E4D0
+
+Rosewater
+#ECC0B0
+
+Rose Red
+#9C3940 */
+
+.Side{
+    height: 100%;
+    float: left;
+    background-color: #9C3940;
+    display: flex;
+    color: white;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1;
+   font-weight: bold;
+    
+
+}
+.msgLogin {
+    font-size :15px;
+}
+.loginBtn {
+    margin-top: 40px;
+    background-color: white;
+    border: solid 1px black;
+    width: 50%;
+    height: 40px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.loginBtn:hover {
+    background-color: #F9E4D0;
+    transition: 0.5s;
+}
+
+.SignupBtn {
+    margin-top: 40px;
+    background-color: #9C3940;
+    border: solid 1px black;
+    width: 200px;
+    height: 40px;
+    color: white;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.SignupBtn:hover {
+    background-color: #F9E4D0;
+    transition: 0.5s;
+    color: black;
+}
