@@ -6,7 +6,7 @@
     font-weight: bold;; 
     grid-template-columns: 2fr 5fr;
     grid-template-rows: 1fr;
-    background-color: #F9E4D0; 
+    background-color: #EEEEEE       ; 
 
     
 }
@@ -25,7 +25,7 @@
     font-size: 15px;
     margin-top: 5px;
     margin-bottom: 25px;
-    color: #8d6e70;
+    color: #000000;
 }
 .SignupForm{
     height: 100%;
@@ -38,10 +38,10 @@
     font-weight: bold;
 }
 .header1{
-    font-size: 40px;
+    font-size: 50px;
     margin-bottom: 10px;
-    color: #9C3940;
-    font-weight: bold;
+    color: #000000;
+    font-weight: bolder;
 }
 
 form {
@@ -56,7 +56,7 @@ input {
     width: 400px;
     height: 50px;
     border-radius: 6px;
-    background-color: #ebebe9;
+    background-color: #eff7fc;
     margin-bottom: 10px;
     
     color: #242424;
@@ -100,9 +100,9 @@ Rose Red
 .Side{
     height: 100%;
     float: left;
-    background-color: #9C3940;
+    background-color: #3876BF;
     display: flex;
-    color: white;
+    color: #DDF2FD;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -129,13 +129,13 @@ Rose Red
     cursor: pointer;
 }
 .loginBtn:hover {
-    background-color: #F9E4D0;
+    background-color: #DDF2FD;
     transition: 0.5s;
 }
 
 .SignupBtn {
     margin-top: 40px;
-    background-color: #9C3940;
+    background-color: #3876BF;
     border: solid 1px black;
     width: 200px;
     height: 40px;
@@ -149,7 +149,7 @@ Rose Red
     cursor: pointer;
 }
 .SignupBtn:hover {
-    background-color: #F9E4D0;
+    background-color: #427D9D;
     transition: 0.5s;
     color: black;
 }
