@@ -2,15 +2,21 @@
 import "./Login.css";
 import Logo from "../../images/Logo.png"
 
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const navigateToSignUp = () => {
+        navigate('/signup');
+    };
     return (
-        <div className="Container">
+        <div className="ContainerLogin">
 
             <div className="SideBar">
                 <h1>Hello, stranger !</h1>
                 <div className="msgLogin"> Enter yout personal data and start looking for the next match</div>
-                <button className="SignupBtn"> Sign up </button>
+                <button className="SignupBtn" onClick={navigateToSignUp}> Sign up </button>
             </div>
             <div className="LoginForm">
 
