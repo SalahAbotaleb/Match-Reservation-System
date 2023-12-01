@@ -1,7 +1,8 @@
 // import React from "react";
 import "./Login.css";
-import Logo from "../../images/Logo.png"
-
+// import Logo from "../../images/Logo.png"
+import Logo from "../../images/logo2.svg";
+import shakeHands from "../../images/shakinghand.gif";
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -14,6 +15,7 @@ const Login = () => {
         <div className="ContainerLogin">
 
             <div className="SideBar">
+                <img src={shakeHands} width="70" height="70" />
                 <h1>Hello, stranger !</h1>
                 <div className="msgLogin"> Enter yout personal data and start looking for the next match</div>
                 <button className="SignupBtn" onClick={navigateToSignUp}> Sign up </button>
