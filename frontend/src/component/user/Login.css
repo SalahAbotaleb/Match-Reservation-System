@@ -15,7 +15,9 @@
 }
 .SideBar{
     height: 100%;
-    background-color: #3876BF;
+    background-color:  rgb(35, 48, 56);
+    font-size: larger;
+    /* background-color: #3876BF; */
     display: flex;
     color: white;
     flex-direction: column;
@@ -23,7 +25,8 @@
     justify-content: center;
     grid-column: 2;
     grid-row: 1;
-   font-weight: bolder;
+    font: "quicksand";
+    font-weight: bolder !important;
     
 }
 
@@ -95,7 +98,8 @@
 
 .LoginBtn {
     margin-top: 40px;
-    background-color: #3876BF;
+    background-color:  rgb(35, 48, 56);
+    /* background-color: #3876BF; */
     border: None;
     width: 200px;
     height:50px;
@@ -108,16 +112,19 @@
     justify-content: center;
     cursor: pointer;
 }
-
+.msgLogin {
+    font-size :18px;
+}
 .LoginBtn:hover {
     box-shadow: 1px 1px 1px 1px #676767;
     transition: 0.5s;
  
 }
 .LoginForm {
-    background: linear-gradient(-45deg, #5c89bd, #BFEAF5, white, white);
+    /* background: linear-gradient(-45deg,  rgb(35, 48, 56),   rgb(35, 48, 56),  rgb(246, 205, 158), white); */
+    background: linear-gradient(-45deg,  rgb(255, 204, 176), #dadada, white, white);
     background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+    animation: gradient 10s ease infinite;
 }
 
 @keyframes gradient {

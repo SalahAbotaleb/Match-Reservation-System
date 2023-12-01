@@ -3,7 +3,7 @@
     height: 100vh;
     display: grid;
     font-family: 'Quicksand';
-    font-weight: bold;; 
+    font-weight: bold !important; 
     grid-template-columns: 2fr 5fr;
     grid-template-rows: 1fr;
     background-color: #EEEEEE       ; 
@@ -57,10 +57,11 @@
 .Side{
     height: 100%;
     float: left;
-    background-color: #3876BF;
+    background-color:  rgb(35, 48, 56);
+    /* background-color: #3876BF; */
     display: flex;
-    color: white;
     flex-direction: column;
+    color: white;
     align-items: center;
     justify-content: center;
     grid-column: 1;
@@ -113,7 +114,8 @@
  
 }
 .SignupForm {
-    background: linear-gradient(-45deg, #5c89bd, #BFEAF5, white, white);
+    /* background: linear-gradient(-45deg, #5c89bd, #BFEAF5, white, white); */
+    background: linear-gradient(-45deg,  rgb(255, 204, 176), #dadada, white, white);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
 }
