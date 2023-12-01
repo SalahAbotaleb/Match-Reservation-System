@@ -6,6 +6,7 @@ const stadiumModel = require('../models/stadiumModel');
 const teamModel = require('../models/teamModel');
 
 const mongoose = require('mongoose');
+const userModel = require('../models/userModel');
 mongoose.connect('mongodb://127.0.0.1:27017/TicketReservation');
 const db = mongoose.connection;
 db.once("connected", () => {
@@ -21,6 +22,22 @@ function getRandomDate(startDate, endDate) {
 
 }
 
+const saveAdmin = async () => {
+    const admin = new userModel({
+        username: "admin",
+        firstName: "admin",
+        lastName: "admin",
+        birthDate: new Date(1998, 12, 12),
+        gender: "male",
+        city: "Cairo",
+        address: "Egypt",
+        email: "admin@admin",
+        role: "admin",
+        status: "accepted"
+    });
+    await userModel.register(admin, "admin");
+    await admin.save();
+};
 const saveStadiums = async () => {
     for (let i = 0; i < stadiums.length; i++) {
         const stadium = new stadiumModel(stadiums[i]);
@@ -53,14 +70,14 @@ const randomMatchesBuilder = async () => {
         const referee = referees[refereeIndex];
         const linesMan = [referees[linesManIndex[0]], referees[linesManIndex[1]]];
         const stadium = stadiums[stadiumIndex];
-        const homeTeam = teams[homeTeamIndex];
-        const awayTeam = teams[awayTeamIndex];
+        const homeTeam = await teamModel.findOne({ name: teams[homeTeamIndex].name });
+        const awayTeam = await teamModel.findOne({ name: teams[awayTeamIndex].name });
         const startDate = new Date(2023, 12, 12);
         const endDate = new Date(2024, 5, 25);
         const stadiumReference = await stadiumModel.findOne({ name: stadium.name });
         const newMatch = {
-            homeTeam: homeTeam.name,
-            awayTeam: awayTeam.name,
+            homeTeam: homeTeam._id,
+            awayTeam: awayTeam._id,
             stadium: stadiumReference._id,
             reservationMap: [],
             date: getRandomDate(startDate, endDate),
@@ -77,6 +94,7 @@ const seed = async () => {
     await saveStadiums();
     await saveTeams();
     await randomMatchesBuilder();
+    await saveAdmin();
     await db.close();
 }
 seed();

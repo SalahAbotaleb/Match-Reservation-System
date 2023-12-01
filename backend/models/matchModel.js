@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 
 const matchSchema = new Schema({
   homeTeam: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Team",
     required: true,
   },
   awayTeam: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Team",
     required: true,
   },
   stadium: {
