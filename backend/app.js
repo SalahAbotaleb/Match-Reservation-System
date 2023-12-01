@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const app = express();
 const mongoose = require("mongoose");
 const asyncHandler = require("./utils/asyncHandler");
@@ -7,11 +8,15 @@ const LocalStrategy = require("passport-local");
 const expressSession = require("express-session");
 const authorizeUser = require("./utils/authorizeUser");
 
+
+app.use(cors());
+
 /**
  * Mongoose connection
  */
 mongoose.connect('mongodb://127.0.0.1:27017/TicketReservation');
 const db = mongoose.connection;
+
 db.once("connected", () => {
     console.log("connected to db");
 });
