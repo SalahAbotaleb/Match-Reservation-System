@@ -6,6 +6,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const expressSession = require("express-session");
 const authorizeUser = require("./utils/authorizeUser");
+
 /**
  * Mongoose connection
  */
@@ -113,10 +114,11 @@ app.get('/logout', (req, res) => {
 /**
  * Logic is not correct just for testing
  */
-app.get('/matches', authorizeUser("fan"), asyncHandler(async (req, res) => {
-    const matches = await matchModel.find({});
+app.get('/matches', asyncHandler(async (req, res) => {
+    const matches = await matchModel.find({}).populate("homeTeam").populate("awayTeam").populate("stadium");
     res.send(matches);
 }));
+
 app.all("*", (req, res) => {
     res.status(404).send("Page not found");
 });

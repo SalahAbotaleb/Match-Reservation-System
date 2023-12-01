@@ -53,14 +53,14 @@ const randomMatchesBuilder = async () => {
         const referee = referees[refereeIndex];
         const linesMan = [referees[linesManIndex[0]], referees[linesManIndex[1]]];
         const stadium = stadiums[stadiumIndex];
-        const homeTeam = teams[homeTeamIndex];
-        const awayTeam = teams[awayTeamIndex];
+        const homeTeam = await teamModel.findOne({ name: teams[homeTeamIndex].name });
+        const awayTeam = await teamModel.findOne({ name: teams[awayTeamIndex].name });
         const startDate = new Date(2023, 12, 12);
         const endDate = new Date(2024, 5, 25);
         const stadiumReference = await stadiumModel.findOne({ name: stadium.name });
         const newMatch = {
-            homeTeam: homeTeam.name,
-            awayTeam: awayTeam.name,
+            homeTeam: homeTeam._id,
+            awayTeam: awayTeam._id,
             stadium: stadiumReference._id,
             reservationMap: [],
             date: getRandomDate(startDate, endDate),
