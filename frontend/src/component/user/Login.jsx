@@ -4,13 +4,63 @@ import "./Login.css";
 import Logo from "../../images/logo2.svg";
 import shakeHands from "../../images/shakinghand.gif";
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import axios from '../../API/axios';
+
+const TextError = (props) => {
+    return props.success ? (<p></p>) : (
+        <p className="text-danger" >incorrect username or password </p>
+    )
+}
+TextError.propTypes = {
+    success: PropTypes.bool.isRequired,
+};
+
+const intialState = {
+    username: "",
+    password: "",
+    error: "",
+    success: true
+}
+
 
 const Login = () => {
     const navigate = useNavigate();
+    const [userstate, setUserState] = useState(intialState);
 
     const navigateToSignUp = () => {
         navigate('/signup');
     };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(userstate);
+            const res = await axios.post('/login',
+                JSON.stringify({
+                    username: userstate.username,
+                    password: userstate.password
+                }),
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+            if (res)
+                console.log(res);
+            const data = await res.data;
+            if (data.success) {
+                setUserState(prevState => ({ ...prevState, success: true }))
+                navigate('/UserHome');
+            }
+        } catch (Err) {
+            setUserState(prevState => ({ ...prevState, success: false }))
+            console.log(Err);
+        }
+    }
+
+    function handlechange(e) {
+        const { name, value } = e.target;
+        setUserState(prevState => ({ ...prevState, [name]: value }))
+    }
+
     return (
         <div className="ContainerLogin">
 
@@ -24,19 +74,26 @@ const Login = () => {
 
                 <img height="100px" width="100" src={Logo} alt="Logo" />
                 <h1>Welcome, back</h1>
-                <form className="FromGroup">
+                <form onSubmit={handleSubmit} className="FromGroup">
                     <input
                         className="UserName FormInputs"
                         type="text"
                         placeholder="User Name"
+                        name="username"
+                        value={userstate.username}
+                        onChange={handlechange}
                         required />
 
                     <input className="password FormInputs"
                         type="password"
+                        name="password"
+                        value={userstate.password}
                         placeholder="Password"
+                        onChange={handlechange}
                         required />
 
-                    <button className="LoginBtn"> Login </button>
+                    <TextError success={userstate.success} />
+                    <button className="LoginBtn" > Login </button>
                 </form>
             </div>
         </div>

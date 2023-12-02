@@ -123,7 +123,7 @@ app.post('/login', passport.authenticate("local"), (req, res) => {
     req.session.status = req.user.status
 
     console.log(req.session.user_id);
-    res.status(200).send(userDataObject);
+    res.status(200).send({... userDataObject, success:true});
 });
 
 app.get('/logout', (req, res) => {
