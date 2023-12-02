@@ -76,12 +76,18 @@ const session = expressSession({
 });
 app.use(session);
 
+const corsOptions = {
+    origin: 'http://localhost:5173', // replace with your client's origin
+    credentials: true,  // This allows the session cookie to be sent back and forth
+  };
+  
+  app.use(cors(corsOptions));
 /**
  * Middleware
 */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+// app.use(cors());
 
 /**
  * Routes
@@ -89,16 +95,22 @@ app.use(cors());
 app.post('/register', asyncHandler(async (req, res) => {
     const { password } = req.body;
     const user = new userModel(req.body);
+    // console.log(req.body);
     user.status = "pending";
-    await userModel.register(user, password);
-    console.log(user);
-    const userDataObject = { id: user._id, username: user.username, role: user.role };
+    try {
+        await userModel.register(user, password);
+        console.log(user);
+        const userDataObject = { id: user._id, username: user.username, role: user.role };
 
-    req.session.user_id = user._id;
-    req.session.user_role = user.role;
-    req.session.status = user.status;
+        req.session.user_id = user._id;
+        req.session.user_role = user.role;
+        req.session.status = user.status;
 
-    res.status(201).send(userDataObject);
+        res.status(201).send(userDataObject);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error registering user");
+    }
 }));
 
 app.post('/login', passport.authenticate("local"), (req, res) => {

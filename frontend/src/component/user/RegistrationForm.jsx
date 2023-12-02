@@ -1,8 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./RegistrationForm.css";
+import axios from "../../API/axios";
+
+const REGISTER_ENDPOINT = "/register";
 
 const intialFormState = {
     FirstName: "",
@@ -18,7 +22,7 @@ const intialFormState = {
     ConfirmedPassword: "",
 };
 
-const uniqueUserName = false;
+const uniqueUserName = false; // this is a boolean that will be set to true if the user name is unique 
 const initPasswordVerification = {
     islengthy: false,
     hasUpper: false,
@@ -32,7 +36,15 @@ const initPasswordVerification = {
 function RegistrationFrom() {
     const [CurrentUserState, setUserState] = useState(intialFormState); // state is an object that has all the values of the form
     const [CurrPasswordVerification, setPassword] = useState(initPasswordVerification);
+    const navigateToUserHome = useNavigate();
+
     const [isUniqueUserName, setUniueUserName] = useState(uniqueUserName);
+    // const navigate = () => {
+    //     navigateToUserHome('/UserHome');
+    // };
+    if (isUniqueUserName) {
+        console.log("user name is unique");
+    }
     useEffect(() => { }, [CurrentUserState])
     function handleOnChange(e) {
         const value = e.target.value;
@@ -66,6 +78,37 @@ function RegistrationFrom() {
         }
 
     }
+    const handlesubmit = async (e) => {
+        e.preventDefault();
+        const dataToSend = {
+            username: CurrentUserState.UserName,
+            firstName: CurrentUserState.FirstName,
+            lastName: CurrentUserState.LastName,
+            birthDate: CurrentUserState.Birthdate,
+            gender: CurrentUserState.gender,
+            city: CurrentUserState.City,
+            address: CurrentUserState.Address,
+            email: CurrentUserState.Email,
+            role: CurrentUserState.Role,
+            status: "Active",
+            password: CurrentUserState.Password,
+        }
+
+        try {
+            const response = await axios.post(REGISTER_ENDPOINT,
+                JSON.stringify(dataToSend),
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+
+            console.log(response.data);
+            navigateToUserHome('/UserHome');
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+
+
 
 
     return (<Container>
@@ -77,7 +120,7 @@ function RegistrationFrom() {
         <hr />
         <Row>
             <Col>
-                <Form>
+                <Form onSubmit={handlesubmit}>
 
                     <Form.Group  >
                         <Form.Label >First Name </Form.Label>

@@ -5,12 +5,14 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import LandingPage from "./component/user/LandingPage";
 import Matches from "./component/Matches/Matches.jsx";
 import Match from "./component/Matches/match.jsx";
+import UserHomeTest from "./component/user/UserHomeTest";
 
 function App() {
     return (
         <div>
             <BrowserRouter>
                 <Routes>
+                    <Route path="/UserHome" element={<UserHomeTest />} />
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
