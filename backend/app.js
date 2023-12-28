@@ -121,7 +121,9 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/matches', asyncHandler(async (req, res) => {
-    const matches = await matchModel.find({}).populate("homeTeam").populate("awayTeam").populate("stadium");
+    const todayDate = new Date();
+    console.log(todayDate);
+    const matches = await matchModel.find({ date: { $gt: todayDate } }).populate("homeTeam").populate("awayTeam").populate("stadium");
     res.send(matches);
 }));
 
@@ -130,18 +132,18 @@ app.get('/matches/:id', asyncHandler(async (req, res) => {
     res.send(match);
 }));
 
-app.post('/matches', authorizeUser("manager"), asyncHandler(async (req, res) => {
+app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const match = new matchModel(req.body);
     await match.save();
     res.status(201).end();
 }));
 
-app.post('/matches/:id', authorizeUser("manager"), asyncHandler(async (req, res) => {
+app.post('/matches/:id', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const match = await matchModel.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).end();
 }));
 
-app.post('/stadiums', authorizeUser("manager"), asyncHandler(async (req, res) => {
+app.post('/stadiums', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const stadium = new stadiumModel(req.body);
     await stadium.save();
     res.status(201).end();
@@ -157,22 +159,22 @@ app.get('/stadiums/:id', asyncHandler(async (req, res) => {
     res.send(stadium);
 }));
 
-app.post('/stadiums/:id', authorizeUser("manager"), asyncHandler(async (req, res) => {
+app.post('/stadiums/:id', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const stadium = stadiumModel.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).end();
 }));
 
-app.get('/requests', authorizeUser("admin"), asyncHandler(async (req, res) => {
+app.get('/requests', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     const users = await userModel.find({ status: "pending" });
     res.send(users);
 }));
 
-app.get('/requests/:id', authorizeUser("admin"), asyncHandler(async (req, res) => {
+app.get('/requests/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     const user = await userModel.findById(req.params.id);
     res.send(user);
 }));
 
-app.post('requests/users/:id', authorizeUser("admin"), asyncHandler(async (req, res) => {
+app.post('/requests/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     const action = req.body.action;
     const user = await userModel.findById(req.params.id);
     if (action === "accept") {
@@ -180,17 +182,33 @@ app.post('requests/users/:id', authorizeUser("admin"), asyncHandler(async (req, 
     } else {
         user.status = "rejected";
     }
+    await user.save();
     res.status(200).send(`user ${user.username} ${action}ed`);
 }));
 
-app.get('/users', authorizeUser("admin"), asyncHandler(async (req, res) => {
+app.get('/users', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     const users = await userModel.find({});
     res.send(users);
 }));
 
-app.get('/users/:id', authorizeUser("admin"), asyncHandler(async (req, res) => {
+app.get('/users/:id', authorizeUser(["admin", "manager", "fan"]), asyncHandler(async (req, res) => {
+    if (req.session.role != "admin" && req.session.user_id != req.params.id) {
+        return res.status(401).send("Unauthorized");
+    }
+
     const user = await userModel.findById(req.params.id);
     res.send(user);
+}));
+
+app.get('/users/:id/tickets', authorizeUser(["fan"]), asyncHandler(async (req, res) => {
+    if (req.session.user_id != req.params.id)
+        return res.status(401).send("Unauthorized");
+    const userTickets = await userModel.findById(req.params.id).populate("tickets");
+    await Promise.all(userTickets.tickets.map((ticket) => {
+        return ticket.populate('match');
+    }));
+    console.log(userTickets);
+    res.send(userTickets);
 }));
 
 app.post('/users/:id', asyncHandler(async (req, res) => {
@@ -200,10 +218,63 @@ app.post('/users/:id', asyncHandler(async (req, res) => {
     res.status(200).end();
 }));
 
-app.delete('/users/:id', authorizeUser("admin"), asyncHandler(async (req, res) => {
+app.delete('/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     const user = await userModel.findById(req.params.id);
     await user.remove();
     res.status(200).send(`user ${user.username} deleted`);
+}));
+
+app.get('/matches/:id/reservations', asyncHandler(async (req, res) => {
+    const locations = await matchModel.findById(req.params.id).select("reservationMap");
+    res.send(locations);
+}));
+
+app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async (req, res) => {
+    const locations = req.body.locations;
+    const matchId = req.params.id;
+    const match = await matchModel.findById(matchId);
+    const ticketPrice = match.ticketPrice;
+    const cardNumber = req.body.cardNumber;
+    const cardPin = req.body.cardPin;
+
+    const userId = req.session.user_id;
+    const user = await userModel.findById(userId);
+
+    const reservedLocations = match.reservationMap;
+
+    console.log(locations);
+    for (let i = 0; i < locations.length; i++) {
+        for (let j = 0; j < reservedLocations.length; j++) {
+            if (locations[i].row == reservedLocations[j].row && locations[i].column == reservedLocations[j].column) {
+                return res.status(400).send("location is already reserved");
+            }
+        }
+    }
+
+    const ticket = new ticketModel({
+        match: matchId,
+        user: userId,
+        locations: locations,
+        totalPrice: locations.length * ticketPrice,
+        cardNumber: cardNumber,
+        cardPin: cardPin
+    });
+
+    match.reservationMap = match.reservationMap.concat(locations);
+    await match.save();
+    await ticket.save();
+
+    if (!user.tickets) {
+        user.tickets = [];
+    }
+
+    user.tickets.push(ticket._id);
+    await user.save();
+
+    console.log(user);
+    console.log(match);
+    console.log(ticket);
+    res.status(201).end();
 }));
 
 app.all("*", (req, res) => {

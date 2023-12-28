@@ -9,8 +9,10 @@ module.exports = (userType) => {
         if (req.session.status == "rejected") {
             return res.status(200).send("Your account request is rejected");
         }
-        if (req.session.user_role == userType) {
-            return next();
-        }
+        for (let i = 0; i < userType.length; i++)
+            if (req.session.user_role == userType[i]) {
+                return next();
+            }
+        return res.status(401).send("Unauthorized");
     }
 }
