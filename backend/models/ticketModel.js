@@ -24,7 +24,7 @@ const ticketSchema = new Schema({
 });
 
 ticketSchema.post("save", async function (doc, next) {
-  await this.populate("match").execPopulate();
+  await this.populate("match");
   const match = await this.model("Match").findById(doc.match);
   match.reservationMap = match.reservationMap.concat(doc.locations);
   await match.save();

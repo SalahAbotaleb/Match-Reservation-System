@@ -79,19 +79,20 @@ app.use(session);
 const corsOptions = {
     origin: 'http://localhost:5173', // replace with your client's origin
     credentials: true,  // This allows the session cookie to be sent back and forth
-  };
-  
-  app.use(cors(corsOptions));
+};
+
+app.use(cors(corsOptions));
+
 /**
  * Middleware
 */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cors());
 
 /**
  * Routes
  */
+
 app.post('/register', asyncHandler(async (req, res) => {
     const { password } = req.body;
     const user = new userModel(req.body);
@@ -123,7 +124,8 @@ app.post('/login', passport.authenticate("local"), (req, res) => {
     req.session.status = req.user.status
 
     console.log(req.session.user_id);
-    res.status(200).send({... userDataObject, success:true});
+    console.log(req.user)
+    res.status(200).send({ ...userDataObject, success: true, id: req.user._id });
 });
 
 app.get('/logout', (req, res) => {
@@ -220,7 +222,20 @@ app.get('/users/:id/tickets', authorizeUser(["fan"]), asyncHandler(async (req, r
         return ticket.populate('match');
     }));
     console.log(userTickets);
+    res.send(userTickets.tickets);
+}));
+
+app.delete('/users/:id/tickets/:ticketId', authorizeUser(["fan"]), asyncHandler(async (req, res) => {
+    if (req.session.user_id != req.params.id)
+        return res.status(401).send("Unauthorized");
+    const userTickets = await userModel.findById(req.params.id).populate("tickets");
+    const ticket = await ticketModel.findById(req.params.ticketId);
+    if (!ticket) {
+        return res.status(404).send("Ticket not found");
+    }
+
     res.send(userTickets);
+
 }));
 
 app.post('/users/:id', asyncHandler(async (req, res) => {
@@ -244,6 +259,7 @@ app.get('/matches/:id/reservations', asyncHandler(async (req, res) => {
 app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async (req, res) => {
     const locations = req.body.locations;
     const matchId = req.params.id;
+    console.log(matchId);
     const match = await matchModel.findById(matchId);
     const ticketPrice = match.ticketPrice;
     const cardNumber = req.body.cardNumber;
@@ -253,8 +269,6 @@ app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async
     const user = await userModel.findById(userId);
 
     const reservedLocations = match.reservationMap;
-
-    console.log(locations);
     for (let i = 0; i < locations.length; i++) {
         for (let j = 0; j < reservedLocations.length; j++) {
             if (locations[i].row == reservedLocations[j].row && locations[i].column == reservedLocations[j].column) {
@@ -272,8 +286,8 @@ app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async
         cardPin: cardPin
     });
 
-    match.reservationMap = match.reservationMap.concat(locations);
-    await match.save();
+    //match.reservationMap = match.reservationMap.concat(locations);
+    //await match.save();
     await ticket.save();
 
     if (!user.tickets) {
@@ -286,7 +300,7 @@ app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async
     console.log(user);
     console.log(match);
     console.log(ticket);
-    res.status(201).end();
+    res.status(201).send("Ticket reserved successfully").end();
 }));
 
 app.all("*", (req, res) => {
@@ -301,5 +315,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, () => {
-    console.log("server is running");
+    console.log("server is running on port ", 3000);
 });
