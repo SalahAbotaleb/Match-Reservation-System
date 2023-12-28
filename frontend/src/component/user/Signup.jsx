@@ -1,6 +1,7 @@
 // import React from "react";
 import "./Signup.css";
-import Logo from "../../images/Logo.png"
+// import Logo from "../../images/Logo.png"
+import Logo from "../../images/logo2.svg";
 import RegistrationFrom from "./RegistrationForm";
 import { useNavigate } from 'react-router-dom';
 
