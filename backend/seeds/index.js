@@ -75,6 +75,7 @@ const randomMatchesBuilder = async () => {
         const startDate = new Date(2023, 12, 12);
         const endDate = new Date(2024, 5, 25);
         const stadiumReference = await stadiumModel.findOne({ name: stadium.name });
+        const ticketPrice = 5 + Math.floor(Math.random() * 100);
         const newMatch = {
             homeTeam: homeTeam._id,
             awayTeam: awayTeam._id,
@@ -82,7 +83,8 @@ const randomMatchesBuilder = async () => {
             reservationMap: [],
             date: getRandomDate(startDate, endDate),
             referee: referee,
-            linesman: [linesMan[0], linesMan[1]]
+            linesman: [linesMan[0], linesMan[1]],
+            ticketPrice: ticketPrice
         };
         const match = new matchModel(newMatch);
         await match.save();

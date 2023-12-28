@@ -32,8 +32,8 @@ const userSchema = new Schema({
     }, status: {
         type: String
     }, tickets: {
-        type: [Schema.Types.ObjectId],
-        ref: 'Ticket'
+        type: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }
+        ],
     }
 });
 
