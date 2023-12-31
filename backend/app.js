@@ -218,8 +218,12 @@ app.get('/users/:id/tickets', authorizeUser(["fan"]), asyncHandler(async (req, r
     if (req.session.user_id != req.params.id)
         return res.status(401).send("Unauthorized");
     const userTickets = await userModel.findById(req.params.id).populate("tickets");
-    await Promise.all(userTickets.tickets.map((ticket) => {
-        return ticket.populate('match');
+    await Promise.all(userTickets.tickets.map(async (ticket) => {
+        await ticket.populate('match');
+        await ticket.populate('match.homeTeam');
+        await ticket.populate('match.stadium');
+        await ticket.populate('match.awayTeam');
+        return ticket;
     }));
     console.log(userTickets);
     res.send(userTickets.tickets);
@@ -311,6 +315,7 @@ app.all("*", (req, res) => {
  * Error handling
  */
 app.use((err, req, res, next) => {
+    console.log(err);
     res.status(500).send("Something went wrong\n" + err);
 });
 
