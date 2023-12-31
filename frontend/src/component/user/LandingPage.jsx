@@ -100,13 +100,12 @@ const ImgSection = () => {
 const LandingPage = () => {
     return (
         <div>
-            <NavBar />
+            <NavBar loggedIn={false} />
             <ImgSection />
             <Features />
             <UserExFeature />
             <Footer />
         </div>
-
     );
 };
 

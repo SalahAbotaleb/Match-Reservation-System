@@ -6,7 +6,43 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import brandLogo from "../../../images/logo2.svg";
 import Button from 'react-bootstrap/esm/Button';
-function NavBar() {
+import PropTypes from 'prop-types';
+
+// ...
+
+NavBar.propTypes = {
+    loggedIn: PropTypes.bool.isRequired,
+};
+
+
+const ButtonsUsed = (props) => {
+
+    if (props.loggedIn) {
+        return (
+            <Button href="/" className="NavSignup"> LogOut  </Button>
+        )
+    }
+    else {
+        return (
+            <>
+                <Button href="/signup" className='NavSignup'>Register </Button>
+                <Button href="/login" className="NavLogin"> Login  </Button>
+            </>
+        )
+    }
+}
+
+ButtonsUsed.propTypes = {
+    loggedIn: PropTypes.bool.isRequired,
+};
+
+
+
+
+function NavBar(props) {
+
+    // eslint-disable-next-line no-unused-vars
+    const { loggedIn } = props;
 
     return (
         <Navbar expand="lg" className="CustomBg Custom" variant='dark' sticky='top'>
@@ -28,10 +64,11 @@ function NavBar() {
                         <Nav.Link className="LinkHover" href="/">Home</Nav.Link>
                         <Nav.Link className="LinkHover" href="/">About us </Nav.Link>
                         <Nav.Link className="LinkHover" href="/">Contact us</Nav.Link>
-                        <NavDropdown title="Servecies" id="basic-nav-dropdown">
+                        <NavDropdown title="Services" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">view future matches</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2"> book your seat </NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Add accouncment to a match </NavDropdown.Item>
+                            <NavDropdown.Item href="/UserProfile">profile </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">
                                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>
@@ -41,9 +78,8 @@ function NavBar() {
                     </Nav>
 
 
-                    <Button href="/signup" className='NavSignup'>Register </Button>
+                    <ButtonsUsed loggedIn={loggedIn} />
 
-                    <Button href="/login" className="NavLogin"> Login  </Button>
                 </Navbar.Collapse>
 
             </Container>

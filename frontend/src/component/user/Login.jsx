@@ -48,7 +48,7 @@ const Login = () => {
             const data = await res.data;
             if (data.success) {
                 setUserState(prevState => ({ ...prevState, success: true }))
-                navigate('/UserHome');
+                navigate('/Userprofile'); // suppose to be user home page
             }
         } catch (Err) {
             setUserState(prevState => ({ ...prevState, success: false }))
