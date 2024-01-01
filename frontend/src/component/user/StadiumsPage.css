@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+h2 {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.addbutton {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+  position: absolute;
+  right: 5px;
+  width: fit-content;
+  margin-right: 30px;
+}
+
+.container {
+  max-width: 500px;
+  margin: 30px auto;
+  overflow: auto;
+  min-height: 300px;
+  border: 1px solid steelblue;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  background: #000;
+  color: #ac3939;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-block {
+  display: block;
+  width: auto;
+  margin-left: 100px;
+}
+
+.stadium {
+  background-color:  rgb(194, 218, 234);
+  margin: 20px;
+  cursor: pointer;
+  padding-left: 20px;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.stadium.reminder {
+  border-left: 5px solid green;
+}
+
+.stadium h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-form {
+  margin-bottom: 40px;
+}
+
+.form-control {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.form-control label {
+  display: block;
+}
+
+.form-control input {
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+  height: 40px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
+}
+
+.form-control-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-control-check label {
+  flex: 1;
+}
+
+.form-control-check input {
+  flex: 2;
+  height: 20px;
+}
+
+.dropdown {
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+  height: 40px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
+}
+
+footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.details
+{
+  white-space: pre-wrap;
+}
+
+.page {
+  font-family: 'Quicksand';
+  font-weight: bold;
+  grid-template-columns: 5fr 2fr;
+  grid-template-rows: 1fr;
+  background-color: #889fab;
+}
+
+.FormInputBox{
+  width: 100%;
+  height: 50px;
+  border-radius: 6px;
+  background-color: #eff7fc;
+  margin-bottom: 10px;
+  color: #242424;
+  border : none; 
+  font-size: 16px;
+}

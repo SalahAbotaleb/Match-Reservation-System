@@ -1,0 +1,19 @@
+.PageTickets {
+    padding-top: 50px;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    font-family: 'Quicksand';
+    font-weight: bold;; 
+    grid-template-columns: 5fr 2fr;
+    grid-template-rows: 1fr;
+    background-color: #EEEEEE;
+}
+
+.Ticket {
+    background-color:  rgb(194, 218, 234);
+    margin: 20px;
+    cursor: pointer;
+    padding-left: 20px;
+    border-radius: 10px;
+  }
