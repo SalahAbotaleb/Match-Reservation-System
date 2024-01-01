@@ -5,14 +5,16 @@ import Typography from "@mui/material/Typography";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from '@mui/material/StepLabel';
-import {useState, Fragment} from "react";
+import {useState, Fragment, useEffect} from "react";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import EventSeatIcon from '@mui/icons-material/EventSeat';
+import SeatGrid from "./SeatGrid.jsx";
+import PayReservation from "./PayReservation.jsx";
 import {TransformWrapper, TransformComponent} from "react-zoom-pan-pinch";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
+import TextField from "@mui/material/TextField";
 
 const steps = ['Select Your Seat', 'Pay', 'Summary'];
 export default function Reserve({reserve, match}) {
@@ -22,6 +24,9 @@ export default function Reserve({reserve, match}) {
 
     const [activeStep, setActiveStep] = useState(0);
     const [tprice, setTprice] = useState(0);
+    const [reservedseats, setReservedseats] = useState([]);
+
+
 
     const handleNext = () => {
         if (activeStep !== steps.length - 1) {
@@ -35,35 +40,9 @@ export default function Reserve({reserve, match}) {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const [seatcolor, setSeatcolor] = useState([{}]);
-    const seats = match => {
-        let seat = [];
-        for (let i = 0; i < match.stadium.dimensions.rows; i++) {
-            let ro = [];
-            for (let j = 0; j < match.stadium.dimensions.columns; j++) {
-                setSeatcolor((prev) => {
-                    if (match.reservationMap.find((seat) => seat.row === i && seat.column === j)) {
-                        return [...prev, {id: (10 * i + j).toString(), color: 'error'}];
-                    } else {
-                        return [...prev, {id: (10 * i + j).toString(), color: 'success'}];
-                    }
-                });
-
-                ro.push(<EventSeatIcon key={10 * i + j} sx={{fontSize: 10}} onClick={
-                    (e) => {
-                        setTprice(tprice + 10);
-                    }
-                } color={seatcolor}/>)
-
-            }
-            seat.push(ro);
-        }
-        return seat;
-    }
-
     return (<>
             <IconButton size={'large'} onClick={closereserve}
-                        sx={{m: 3, color: 'white', position: 'absolute', top: 0, right: 0}}>
+                        sx={{mr: 3, color: 'white', position: 'absolute', top: 0, right: 0}}>
                 <CloseIcon onClick={closereserve} fontSize={'large'}/>
             </IconButton>
             <Box sx={{
@@ -73,9 +52,10 @@ export default function Reserve({reserve, match}) {
                 bgcolor: '#eeeeee',
                 transform: 'translate(-50%, -50%)',
                 width: 0.9,
-                height: 0.72,
+                height: 0.8,
                 boxShadow: 24,
                 p: 4,
+                m: 'auto',
                 overflowX: 'auto',
                 overflowY: 'auto'
             }}>
@@ -91,39 +71,13 @@ export default function Reserve({reserve, match}) {
 
                 <Grid container direction={'column'} justifyContent={'center'} alignItems={'center'} height={0.9}
                       position={'absolute'}>
-                    <Grid item hidden={activeStep === 1} position={'absolute'} top={-5} mr={5}>
-                        <TransformWrapper
-                            minScale={0.1}
-                            maxScale={5}
-                            initialScale={150 / match.stadium.dimensions.rows}
-                            centerOnInit={true}
-                        >
-                            {({zoomIn, zoomOut, centerView, ...rest}) => (
-                                <Fragment>
-                                    <div className="tools">
-                                        <IconButton onClick={() => zoomIn()}><ZoomInIcon/></IconButton>
-                                        <IconButton onClick={() => zoomOut()}><ZoomOutIcon/></IconButton>
-                                        <IconButton onClick={() => centerView()}><CenterFocusStrongIcon/></IconButton>
-                                    </div>
-                                    <TransformComponent wrapperStyle={{
-                                        border: "2px solid black",
-                                        borderRadius: '10px',
-                                    }}>
-                                        {seats(match).map((row) => (
-                                            <Grid container justifyContent='center' wrap spacing={0.5}>
-                                                {row.map((seat) => (
-                                                    <Grid item>
-                                                        {seat}
-                                                    </Grid>
-                                                ))}
-                                            < /Grid>))
-                                        }
-                                    </TransformComponent>
-                                </Fragment>
-                            )}
-                        </TransformWrapper>
-                    </Grid>
-                    {activeStep !== steps.length ? (
+
+                    <SeatGrid hidden={activeStep !== 0} match={match} setReservedSeats={setReservedseats} setTprice={setTprice}/>
+
+                    <PayReservation hidden={activeStep !== 1} reservedSeats={reservedseats}
+                                    handleBack={handleBack} handleNext={handleNext}/>
+
+                    {activeStep !== steps.length && activeStep !== steps.length - 2 ? (
                         <Grid item container justifyContent='end' position='absolute' bottom={0} right={0} mr={5} p={2}>
                             <Grid item>
                                 <Button
@@ -137,7 +91,7 @@ export default function Reserve({reserve, match}) {
                             </Grid>
                             <Grid item>
                                 <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Done' : activeStep === steps.length - 2 ? 'Reserve' : 'Next'}
+                                    {activeStep === steps.length - 1 ? 'Done' : 'Next'}
                                 </Button>
                             </Grid>
                         </Grid>) : null
