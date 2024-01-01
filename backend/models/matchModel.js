@@ -2,7 +2,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const reservationMapSchema = new Schema({ row: Number, column: Number }, { _id: false });
+const reservationMapSchema = new Schema({
+  row: Number,
+  column: Number,
+  reservationDate: {
+    type: Date,
+    default: Date.now
+  }
+}, { _id: false });
+
 const matchSchema = new Schema({
   homeTeam: {
     type: Schema.Types.ObjectId,

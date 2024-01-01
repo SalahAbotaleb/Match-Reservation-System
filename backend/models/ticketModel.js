@@ -20,6 +20,10 @@ const ticketSchema = new Schema({
   cardPin: {
     type: Number,
     required: true
+  },
+  reservationDate: {
+    type: Date,
+    default: Date.now
   }
 });
 

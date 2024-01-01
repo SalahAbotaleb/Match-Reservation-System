@@ -222,6 +222,26 @@ async function viewUserTickets(userId, cookie) {
 
 }
 
+
+async function viewReservationsAfter(matchId, date) {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `http://localhost:3000/matches/${matchId}/reservationsAfter?date=${date}`,
+        headers: {
+        }
+    };
+
+    await axios.request(config)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+}
+
 async function cancelTickets(userId, ticketId, cookie) {
     let config = {
         method: 'delete',
@@ -250,8 +270,9 @@ async function scenario() {
     await cancelTickets("658de39bddb7065d122e6c7f", "65931de68a02899076dddf52", cookie)
     await viewMatches();
     console.log("-----------------------------------");
-    //await reserveSeats(cookie, "656a2ff0979ed0c0bd752527", [{ "row": 10, "column": 1 }, { "row": 10, "column": 2 }]);
+    //await reserveSeats(cookie, "656a2ff0979ed0c0bd752527", [{ "row": 15, "column": 1 }]);
     //await viewUserTickets("658de39bddb7065d122e6c7f", cookie);
+    viewReservationsAfter("656a2ff0979ed0c0bd752527", "2021-05-01");
 }
 
 scenario();
