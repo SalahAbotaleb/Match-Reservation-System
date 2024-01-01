@@ -10,6 +10,9 @@
     background-color:  rgb(194, 218, 234);
     margin: 20px;
     cursor: pointer;
-    padding-left: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
+  }
+
+  .Ticket:hover{
+    background-color: #bab6b9;
   }

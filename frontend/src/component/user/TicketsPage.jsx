@@ -29,7 +29,7 @@ const TicketsPage = () => {
 
     return (
         <div className='PageTickets'>
-            <Container>
+            <Container style={{border: 0}}>
                 <Row>
                     <Col>
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

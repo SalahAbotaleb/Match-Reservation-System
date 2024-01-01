@@ -5,18 +5,20 @@ import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 
 const Ticket = ({ ticket }) => {
-    return (
-
-        <Container>
-        <Row>
-          <Col> <h3> Teams </h3> </Col>
-        </Row>
-        <Row>
-            <Col> Price: {ticket.Price} </Col>
-            <Col>Stadium: {ticket.locations}</Col>
-        </Row>
-      </Container>
-    )
+  return (
+    <Container className='Ticket container-sm' style={{border: 0, height: 100 }}>
+      <Row>
+        <Col>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <h3>Teams</h3>
+          </div> </Col>
+      </Row>
+      <Row>
+        <Col> Price: {ticket.Price} </Col>
+        <Col>Stadium: {ticket.locations}</Col>
+      </Row>
+    </Container>
+  )
 }
 
 export default Ticket

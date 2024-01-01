@@ -136,36 +136,25 @@ h2 {
   height: 20px;
 }
 
-.dropdown {
-  align-items: center;
-  justify-content: space-between;
-  width: 30%;
-  height: 40px;
-  margin: 5px;
-  padding: 3px 7px;
-  font-size: 17px;
-}
-
-footer {
-  margin-top: 30px;
-  text-align: center;
-}
-
-.details
-{
-  white-space: pre-wrap;
-}
-
 .page {
   font-family: 'Quicksand';
   font-weight: bold;
   grid-template-columns: 5fr 2fr;
   grid-template-rows: 1fr;
   background-color: #889fab;
+  border: 0;
 }
 
-.FormInputBox{
-  width: 100%;
+.PageStadiums {
+  display: grid;
+  font-family: 'Quicksand';
+  font-weight: bold;; 
+  grid-template-rows: 1fr;
+  background-color: #EEEEEE;
+}
+
+.FormInputBoxSP{
+  width: 1000px;
   height: 50px;
   border-radius: 6px;
   background-color: #eff7fc;
@@ -174,3 +163,4 @@ footer {
   border : none; 
   font-size: 16px;
 }
+
