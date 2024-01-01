@@ -8,8 +8,6 @@ const LocalStrategy = require("passport-local");
 const expressSession = require("express-session");
 const authorizeUser = require("./utils/authorizeUser");
 
-
-
 /**
  * Mongoose connection
 */
@@ -237,8 +235,21 @@ app.delete('/users/:id/tickets/:ticketId', authorizeUser(["fan"]), asyncHandler(
     if (!ticket) {
         return res.status(404).send("Ticket not found");
     }
-
-    res.send(userTickets);
+    const ticketIndex = userTickets.tickets.findIndex((ticket) => ticket._id == req.params.ticketId);
+    if (ticketIndex == -1) {
+        return res.status(404).send("Ticket not found");
+    }
+    const ticketToRemove = userTickets.tickets[ticketIndex];
+    await ticketToRemove.populate('match');
+    console.log(ticketToRemove.match.date);
+    const threeDaysBeforeMatch = new Date();
+    threeDaysBeforeMatch.setDate(ticketToRemove.match.date.getDate() - 3);
+    const todayDate = new Date();
+    if (threeDaysBeforeMatch <= todayDate) {
+        res.status(400).send("You can cancel your ticket only 3 days before the match");
+    }
+    await ticketModel.findOneAndDelete({ _id: req.params.ticketId });
+    res.status(200).send("Ticket cancelled successfully");
 
 }));
 
@@ -290,8 +301,6 @@ app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async
         cardPin: cardPin
     });
 
-    //match.reservationMap = match.reservationMap.concat(locations);
-    //await match.save();
     await ticket.save();
 
     if (!user.tickets) {
