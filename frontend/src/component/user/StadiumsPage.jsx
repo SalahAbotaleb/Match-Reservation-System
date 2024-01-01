@@ -13,11 +13,6 @@ const Stadiumspage = () => {
     const [columns, setcol] = useState('')
     const [location, setlocation] = useState('Alexandria')
 
-    const handling = async (e) => {
-        e.preventDefault();
-
-    }
-
 
     const stadiums =
         [
@@ -129,10 +124,10 @@ const Stadiumspage = () => {
             </Container>
             }
 
-            {/* <div>
+            
                 {stadiums.map((stad) => (
                     <Stadium key={stad.id} stad={stad} />))}
-            </div> */}
+            
 
         </Container>
     )

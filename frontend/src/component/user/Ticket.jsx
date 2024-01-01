@@ -1,22 +1,21 @@
 import React from 'react'
 import "./StadiumsPage.css";
+import { Container, Row, Col } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 
 const Ticket = ({ ticket }) => {
     return (
-        <div className="Ticket">
-            <div className="row">
-                <div className="col-md-6">
-                    <h3> Teams </h3>
-                </div>
-            </div>
-            <div className="row">
-                <p className='details'>Price: {ticket.Price}                                  Stadium: {ticket.locations} </p>
-            </div>
-            <div className="row">
-                <p></p>
-            </div>
-        </div>
+
+        <Container>
+        <Row>
+          <Col> <h3> Teams </h3> </Col>
+        </Row>
+        <Row>
+            <Col> Price: {ticket.Price} </Col>
+            <Col>Stadium: {ticket.locations}</Col>
+        </Row>
+      </Container>
     )
 }
 

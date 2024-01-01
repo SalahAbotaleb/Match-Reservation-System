@@ -2,6 +2,7 @@ import Ticket from './Ticket'
 import "./TicketsPage.css";
 import Footer from '../layout/Footer/Footer'
 import NavBar from '../layout/NavBar/NavBar'
+import { Container, Row, Col } from "react-bootstrap";
 
 const TicketsPage = () => {
 
@@ -27,19 +28,27 @@ const TicketsPage = () => {
         ]
 
     return (
-        <div>
-            <div className="PageTickets">
-                <div>
-                    {previoustickets.map((ticket) => (
-                        // {previoustickets.length > 0 ? <Ticket key={ticket.id} ticket={ticket} /> : "Book Your first ticket"}
-                        <Ticket key={ticket.id} ticket={ticket}></Ticket>
-                    ))}
-                </div>
-            </div>
+        <div className='PageTickets'>
+            <Container>
+                <Row>
+                    <Col>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <h1>Tickets History</h1>
+                        </div>
+                    </Col>
+                </Row>
+
+                {previoustickets.length > 0 ? (
+                    previoustickets.map((ticket) => (
+                        <Ticket key={ticket.id} ticket={ticket} />
+                    ))
+                ) : (
+                    "Book Your first ticket"
+                )}
+            </Container >
         </div>
+
     )
 }
 
 export default TicketsPage
-
-

@@ -9,10 +9,10 @@ const Stadium = ({ stad }) => {
   const [showdetails, setdetailsbutton] = useState(false)
 
   return (
-    <Container className="stadium">
+    <Container>
       <Row>
         <Col> <h3> {stad.text} </h3> </Col>
-        <Col> <Button style={{ backgroundColor: showadd ? 'red' : 'green' }} onClick={() => setdetailsbutton(!showdetails)}> 
+        <Col> <Button onClick={() => setdetailsbutton(!showdetails)} style={{ backgroundColor: showdetails ? 'red' : 'green' }}> 
         {showdetails ? 'Hide details' : 'Show details'} </Button> </Col>
       </Row>
       {showdetails && <p>{stad.address}</p>}
