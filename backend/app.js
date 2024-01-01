@@ -30,30 +30,6 @@ const stadiumModel = require('./models/stadiumModel');
 const teamModel = require('./models/teamModel');
 const ticketModel = require('./models/ticketModel');
 
-
-/**
- * Summary to avoid confusion:
- * 1. authenticate: is to verify user credentials (email and password)
- * 2. authorize: is to verify user role (admin or user)
- * 3. cookie: is piece of information stored in client browser
- * 4. session: is introduced to store user data in the server as a cookie can have maximum limited size
- * 5. session is used to store user data in the server and cookie is used to store session id in the client browser
- * 6. session id is used to retrieve session data from the server
- * 7. session id is stored in the cookie
- * 8. we use passport to do authentication
- * 9. we use passport-local as a strategy to do authentication with username and password
- * 10. we use passport-local-mongoose as they have implemented the logic of passport-local strategy
- * 11. serialize User: is to store user data in the session
- * 12. deserialize User: is to retrieve user data from the session
- * 13. passport-local-mongoose implements serialize and deserialize User
- * 14. all previous was related to authentication
- * 15. now we will talk about session
- * 16. express-session is used to store session data in the server
- * 17. for any session we can add variables that are specific for the user example req.session.name = "ahmed"
- * 18. when passport authenticates a user it uses username and password send to do that
- * 19. passport will store the user data in the session but only for each route it is used to authenticate for
- * 20. the idea behind is to store the user in the session, to avoid using passport authentication on each route
-*/
 /**
  * Passport configuration
 */
@@ -94,11 +70,9 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/register', asyncHandler(async (req, res) => {
     const { password } = req.body;
     const user = new userModel(req.body);
-    // console.log(req.body);
     user.status = "pending";
     try {
         await userModel.register(user, password);
-        console.log(user);
         const userDataObject = { id: user._id, username: user.username, role: user.role };
 
         req.session.user_id = user._id;
@@ -120,21 +94,16 @@ app.post('/login', passport.authenticate("local"), (req, res) => {
     req.session.user_id = req.user._id;
     req.session.user_role = req.user.role;
     req.session.status = req.user.status
-
-    console.log(req.session.user_id);
-    console.log(req.user)
     res.status(200).send({ ...userDataObject, success: true, id: req.user._id });
 });
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    console.log(req.session.user_id);
     res.status(200).send("logged out");
 });
 
 app.get('/matches', asyncHandler(async (req, res) => {
     const todayDate = new Date();
-    console.log(todayDate);
     const matches = await matchModel.find({ date: { $gt: todayDate } }).populate("homeTeam").populate("awayTeam").populate("stadium");
     res.send(matches);
 }));
@@ -223,7 +192,6 @@ app.get('/users/:id/tickets', authorizeUser(["fan"]), asyncHandler(async (req, r
         await ticket.populate('match.awayTeam');
         return ticket;
     }));
-    console.log(userTickets);
     res.send(userTickets.tickets);
 }));
 
@@ -241,7 +209,6 @@ app.delete('/users/:id/tickets/:ticketId', authorizeUser(["fan"]), asyncHandler(
     }
     const ticketToRemove = userTickets.tickets[ticketIndex];
     await ticketToRemove.populate('match');
-    console.log(ticketToRemove.match.date);
     const threeDaysBeforeMatch = new Date();
     threeDaysBeforeMatch.setDate(ticketToRemove.match.date.getDate() - 3);
     const todayDate = new Date();
@@ -266,15 +233,28 @@ app.delete('/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res)
     res.status(200).send(`user ${user.username} deleted`);
 }));
 
+
 app.get('/matches/:id/reservations', asyncHandler(async (req, res) => {
     const locations = await matchModel.findById(req.params.id).select("reservationMap");
     res.send(locations);
 }));
 
+/**
+ * Expects to receive time in query parameter using ISO 8601 format
+ */
+app.get('/matches/:id/reservationsAfter', asyncHandler(async (req, res) => {
+    const stringDate = req.query.date;
+    const locations = await matchModel.findById(req.params.id).select("reservationMap");
+    const dateObj = new Date(stringDate);
+    const locationsAfterTime = locations.reservationMap.filter((location) => {
+        return location.reservationDate > dateObj;
+    });
+    res.send(locationsAfterTime);
+}));
+
 app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async (req, res) => {
     const locations = req.body.locations;
     const matchId = req.params.id;
-    console.log(matchId);
     const match = await matchModel.findById(matchId);
     const ticketPrice = match.ticketPrice;
     const cardNumber = req.body.cardNumber;
@@ -310,9 +290,6 @@ app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async
     user.tickets.push(ticket._id);
     await user.save();
 
-    console.log(user);
-    console.log(match);
-    console.log(ticket);
     res.status(201).send("Ticket reserved successfully").end();
 }));
 
