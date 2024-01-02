@@ -1,0 +1,11 @@
+.ProfileHeader{
+    width: 100%;
+    font-size: 2.5rem;
+    font-family: "Quicksand";
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: black;
+    /* color: #246abb; */
+    font-weight: bolder;
+
+}

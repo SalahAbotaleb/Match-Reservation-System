@@ -101,7 +101,7 @@ function RegistrationFrom() {
             );
 
             console.log(response.data);
-            navigateToUserHome('/UserHome');
+            navigateToUserHome('/login');
         } catch (err) {
             console.log(err.message);
         }
