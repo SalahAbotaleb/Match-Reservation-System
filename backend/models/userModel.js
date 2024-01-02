@@ -23,7 +23,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     }, address: {
-        type: String,
+        type: String
     }, email: {
         type: String,
         required: true
@@ -32,8 +32,7 @@ const userSchema = new Schema({
     }, status: {
         type: String
     }, tickets: {
-        type: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }
-        ],
+        type: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }]
     }
 });
 

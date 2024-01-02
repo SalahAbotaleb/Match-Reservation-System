@@ -162,7 +162,7 @@ app.post('/requests/users/:id', authorizeUser(["admin"]), asyncHandler(async (re
     const user = await userModel.findById(req.params.id);
     console.log(action);
     console.log(user);
-    
+
     if (action === "accept") {
         user.status = "accepted";
     } else {
@@ -173,12 +173,12 @@ app.post('/requests/users/:id', authorizeUser(["admin"]), asyncHandler(async (re
 }));
 
 app.get('/users', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
-    const users = await userModel.find({});
+    const users = await userModel.find({ status: { $in: ["accepted", "pending"] } });
     res.send(users);
 }));
 
 // authorizeUser(["admin", "manager", "fan"])
-app.get('/users/:id', asyncHandler(async (req, res) => {
+app.get('/users/:id', authorizeUser(["admin", "manager", "fan"]), asyncHandler(async (req, res) => {
     // console.log(req.session.user_id);
     console.log(req.session.user_role);
     console.log(req.session.user_id);
@@ -258,7 +258,7 @@ app.post('/users/:id', asyncHandler(async (req, res) => {
 }));
 
 app.delete('/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
-    console.log("deleted User ID ") ; 
+    console.log("deleted User ID ");
     console.log(req.params.id);
 
     const user = await userModel.findById(req.params.id);
