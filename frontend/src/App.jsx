@@ -6,6 +6,7 @@ import LandingPage from "./component/user/LandingPage";
 import UserHomeTest from "./component/user/UserHomeTest";
 import Stadiumspage from "./component/user/StadiumsPage";
 import TicketsPage from "./component/user/TicketsPage";
+import RequestsPortal from "./component/user/RequestsPortal";
 
 function App() {
     return (
@@ -18,7 +19,6 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                 </Routes>
             </BrowserRouter> */}
-            {/* <Stadiumspage></Stadiumspage> */}
             <TicketsPage></TicketsPage>
         </div>  
     );

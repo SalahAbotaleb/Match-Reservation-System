@@ -20,5 +20,5 @@ const Ticket = ({ ticket }) => {
     </Container>
   )
 }
-
+//app.delete('/users/:id/tickets/:ticketId'
 export default Ticket

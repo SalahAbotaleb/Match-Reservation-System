@@ -1,14 +1,43 @@
 import React from 'react'
+import { Button, Col, Container, Row } from 'react-bootstrap'
+import axios from "../../API/axios";
 
-const Request = (request) => {
+const Request = ({ request }) => {
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    const dataToSend = {
+        name: CurrentUserState.stadiumname,
+    }
+    try {
+        const response = await axios.request({
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/requests/users/:id',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: JSON.stringify(dataToSend),
+        });
+        console.log(response.data);
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
   return (
-    <div className="stadium">
-        <div className="row">
-            <div className="col-md-6">
-                <button className="btn btn-block">Accept </button>
-                <button className="btn btn-block">Reject </button>
-            </div>
-        </div>
+    <div>
+        <Row>
+          <p>UserName : {request.username}</p>
+        </Row>
+        <Row>
+          <Col><p>Name : {request.firstName} {request.lastName}</p></Col>
+          <Col><p>Requested Role : {request.role}</p></Col>
+        </Row>
+        <Row style={{ marginLeft: 300 }}>
+          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'green' }}> Accept </Button> </Col>
+          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'red' }}> Reject </Button> </Col>
+        </Row>
     </div>
   )
 }
