@@ -2,14 +2,12 @@ import "./Userprofile.css";
 import NavBar from "../layout/NavBar/NavBar";
 import Footer from "../layout/Footer/Footer";
 import ProfileForm from "./PorfileForm";
-import { useParams } from "react-router";
 
 // import RegistrationForm from "./RegistrationForm";
 
 //6593bf9f74fcb57dbf31186c
 const Userprofile = () => {
 
-    const { id } = useParams();
 
     return (
 
@@ -20,7 +18,7 @@ const Userprofile = () => {
 
             <div className="ProfileForm scrollableProfile">
                 <div className="jumbotronProfile">
-                    <ProfileForm userID={id} />
+                    <ProfileForm />
                 </div>
             </div>
 

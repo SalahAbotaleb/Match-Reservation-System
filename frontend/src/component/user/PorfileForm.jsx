@@ -3,8 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./ProfileForm.css";
-import PropTypes from 'prop-types';
 import axios from "../../API/axios";
+// import { Global } from '@emotion/react';
 
 // props = {userID }
 
@@ -34,12 +34,10 @@ const IntialUserState = {
 
 // ...
 
-ProfileForm.propTypes = {
-    userID: PropTypes.string.isRequired,
-};
-// const pageloaded = false;
 
-function ProfileForm(props) {
+// const pageloaded = false;
+var GlobaluserID = "";
+function ProfileForm() {
 
     const [CurrentUserState, setCurrentUserState] = useState(IntialUserState);
     const [CurrPasswordVerification, setPassword] = useState(initPasswordVerification);
@@ -54,6 +52,8 @@ function ProfileForm(props) {
     }
 
     const fetchUserData = async (User_ID) => {
+        console.log("fetching User data ");
+        console.log(User_ID);
         try {
             const response = await axios.get(`/users/${User_ID}`, { withCredentials: true });
             console.log("data fetched here ");
@@ -74,6 +74,7 @@ function ProfileForm(props) {
 
     useEffect(() => {
         GetUserId().then(userId => {
+            GlobaluserID = userId;
             fetchUserData(userId);
         });
 
@@ -139,7 +140,7 @@ function ProfileForm(props) {
 
         try {
             // eslint-disable-next-line no-unused-vars
-            const response = await axios.post(`/users/${props.userID}`,
+            const response = await axios.post(`/users/${GlobaluserID}`,
                 JSON.stringify(dataToSend),
                 { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
             );
