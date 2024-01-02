@@ -38,15 +38,15 @@ const Ticket = ({ ticket }) => {
       console.log(err.message);
     }
   }
-
+  //same as navbar, text white and bold
   return (
     <Container className='Ticket container-sm' style={{ border: 0, height: 200, paddingTop: 10 }}>
       <Row>
         <Col>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <h5>{ticket.match.homeTeam.name}</h5>
+            <h3>{ticket.match.homeTeam.name}</h3>
             <h5> &nbsp; VS &nbsp; </h5>
-            <h5>{ticket.match.awayTeam.name}</h5>
+            <h3>{ticket.match.awayTeam.name}</h3>
           </div> </Col>
       </Row>
       <Row style={{ marginLeft: 100, marginTop: 10 }}>
@@ -64,10 +64,10 @@ const Ticket = ({ ticket }) => {
         <Col> Column: {ticket.locations[0].column} </Col>
       </Row>
 
-      <div style={{ marginTop: 5, display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
+      <div style={{ marginBottom: 5, marginRight: 20,display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
         <Row>
           <Col>
-            <Button className='Cancel' style={{backgroundColor: 'red', borderColor: 'red'}} onClick={(e) => deleteticket(e)}> Cancel Reservation </Button>
+            <Button className='Cancel' style={{backgroundColor: 'white', borderColor: 'black', color: 'black'}} onClick={(e) => deleteticket(e)}> Cancel Reservation </Button>
           </Col>
         </Row>
       </div>

@@ -49,13 +49,20 @@ const TicketsPage = () => {
                         </div>
                     </Col>
                 </Row>
-                {
-                    Tickets.map((ticket) => (
-                        <Ticket key={ticket.id} ticket={ticket}/>
-                    ))}
+
+
+{Tickets.length > 0 ? (
+          Tickets.map((ticket) => (
+            <Ticket key={ticket.id} ticket={ticket} />
+          ))
+        ) : (
+          <h3> You Don't Have Any Tickets. Go Book Your First Ticket in "Nile دورى"</h3>
+        )}
 
             </Container>
-            <Footer></Footer>
+            <div className="FooterPos">
+                <Footer></Footer>
+            </div>
         </div>
     )
 }
