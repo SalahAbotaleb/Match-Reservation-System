@@ -28,7 +28,6 @@ const gettickets = async (id) => {
 const TicketsPage = () => {
 
     const [Tickets, setTickets] = useState([]);
-    
 
     useEffect(() => {
         GetUserId().then(userId => {
@@ -38,22 +37,6 @@ const TicketsPage = () => {
         });
 
     }, []);
-
-    const previoustickets =
-        [
-            {
-                Price: '300',
-                locations: 'Cairo International Stadium',
-            },
-            {
-                Price: '320',
-                locations: '30 June Stadium',
-            },
-            {
-                Price: '2323',
-                locations: 'Assiut',
-            }
-        ]
 
     return (
         <div className='PageTickets'>
