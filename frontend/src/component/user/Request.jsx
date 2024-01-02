@@ -4,7 +4,7 @@ import axios from "../../API/axios";
 
 const Request = ({ request }) => {
 
-  const handlesubmit = async (e) => {
+  const changestatus = async (e) => {
     e.preventDefault();
     const dataToSend = {
         name: CurrentUserState.stadiumname,
@@ -35,8 +35,8 @@ const Request = ({ request }) => {
           <Col><p>Requested Role : {request.role}</p></Col>
         </Row>
         <Row style={{ marginLeft: 300 }}>
-          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'green', borderColor: 'green' }}> Accept </Button> </Col>
-          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'red', borderColor: 'red' }}> Reject </Button> </Col>
+          <Col> <Button onClick={() => changestatus()} style={{ width: 100, backgroundColor: 'green', borderColor: 'green' }}> Accept </Button> </Col>
+          <Col> <Button onClick={() => changestatus()} style={{ width: 100, backgroundColor: 'red', borderColor: 'red' }}> Reject </Button> </Col>
         </Row>
     </Container>
   )
