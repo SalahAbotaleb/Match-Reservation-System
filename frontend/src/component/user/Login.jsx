@@ -37,6 +37,7 @@ const Login = () => {
         try {
             console.log(userstate);
             const res = await axios.post('/login',
+
                 JSON.stringify({
                     username: userstate.username,
                     password: userstate.password
@@ -48,7 +49,8 @@ const Login = () => {
             const data = await res.data;
             if (data.success) {
                 setUserState(prevState => ({ ...prevState, success: true }))
-                navigate('/Userprofile'); // suppose to be user home page
+                // console.log(data.id);
+                navigate(`/Userprofile/${data.id}`); // suppose to be user home page or user profile page
             }
         } catch (Err) {
             setUserState(prevState => ({ ...prevState, success: false }))

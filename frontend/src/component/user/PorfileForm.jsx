@@ -37,18 +37,21 @@ const IntialUserState = {
 ProfileForm.propTypes = {
     userID: PropTypes.string.isRequired,
 };
-
+// const pageloaded = false;
 
 function ProfileForm(props) {
-
+    console.log(IntialUserState);
     const fetchUserData = async () => {
         try {
             const response = await axios.get(`/users/${props.userID}`);
-            console.log(response.data)
+            console.log("data fetched here ");
+            console.log(response.data);
+
             setCurrentUserState(response.data);
 
         } catch (error) {
             console.error('Error:', error);
+
         }
 
     };
@@ -140,7 +143,7 @@ function ProfileForm(props) {
                                 name="LastName"
                                 onChange={handleOnChange}
                                 value={CurrentUserState.LastName}
-                                placeholder="Last Name"
+                                placeholder={CurrentUserState.LastName}
                             />
                         </Form.Group>
 
@@ -153,7 +156,6 @@ function ProfileForm(props) {
                                 name="UserName"
                                 value={IntialUserState.UserName}
                                 placeholder="User Name"
-
                                 readOnly
                             />
                         </Form.Group>
@@ -167,7 +169,7 @@ function ProfileForm(props) {
                                 placeholder="Email"
                                 value={CurrentUserState.Email}
                                 required
-
+                                readOnly
                             />
                         </Form.Group>
 
@@ -269,7 +271,7 @@ function ProfileForm(props) {
 
                         </ul>
 
-                        <Button variant="dark" type="submit" disabled={CurrentUserState.Password == "" || Object.values(CurrPasswordVerification).includes(false)}>
+                        <Button variant="dark" type="submit" disabled={CurrentUserState.Password != "" || Object.values(CurrPasswordVerification).includes(false)}>
                             Update
                         </Button>
                     </Form >

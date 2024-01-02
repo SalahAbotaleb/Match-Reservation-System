@@ -1,25 +1,15 @@
 import "./Userprofile.css";
 import NavBar from "../layout/NavBar/NavBar";
 import Footer from "../layout/Footer/Footer";
-import Logo from "../../images/stadium.jpg";
+import ProfileForm from "./PorfileForm";
+import { useParams } from "react-router";
 
 // import RegistrationForm from "./RegistrationForm";
 
-const ImgSection = () => {
-    return (
-        <div className="ImgSectionProfile">
-            <div className="herogredient2"></div>
-            <img id="bgImg" width="100%" src={Logo}></img>
-
-        </div >
-    );
-
-}
-
-
+//6593bf9f74fcb57dbf31186c
 const Userprofile = () => {
 
-
+    const { id } = useParams();
 
     return (
 
@@ -28,15 +18,10 @@ const Userprofile = () => {
                 <NavBar loggedIn={true} />
             </div>
 
-
-            <div className="content-wrap">
-
-                <ImgSection />
-
-                {/* <div className="jumbotronProfile">
-                        <RegistrationForm />
-                    </div> */}
-
+            <div className="ProfileForm scrollableProfile">
+                <div className="jumbotronProfile">
+                    <ProfileForm userID={id} />
+                </div>
             </div>
 
             <div className="FooterPos">
