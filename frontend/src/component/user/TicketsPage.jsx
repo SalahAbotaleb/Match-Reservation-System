@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import Ticket from './Ticket'
 import "./TicketsPage.css";
 import Footer from '../layout/Footer/Footer'
 import NavBar from '../layout/NavBar/NavBar'
-import { Container, Row, Col } from "react-bootstrap";
+import {Container, Row, Col} from "react-bootstrap";
 import axios from "../../API/axios";
 
 //make request on userID
 
 const GetUserId = async () => {
-    const response = await axios.get("/userId", { withCredentials: true });
+    const response = await axios.get("/userId", {withCredentials: true});
     var User_ID = response.data;
     console.log("UserID");
     console.log(response);
@@ -18,27 +18,23 @@ const GetUserId = async () => {
 
 const gettickets = async (id) => {
     try {
-      const response = await axios.get(`/users/${id}/tickets`, { withCredentials: true });
-      return response.data;
+        const response = await axios.get(`/users/${id}/tickets`, {withCredentials: true});
+        return response.data;
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     }
-  };
+};
 
 const TicketsPage = () => {
 
     const [Tickets, setTickets] = useState([]);
-                    console.log({Tickets})
+    
 
     useEffect(() => {
-        gettickets().then((data) => {
-            setTickets(data);
-        });
-    }, []);
-    
-    useEffect(() => {
         GetUserId().then(userId => {
-            gettickets(userId);
+            gettickets(userId).then((data) => {
+                setTickets(data);
+            });
         });
 
     }, []);
@@ -65,17 +61,17 @@ const TicketsPage = () => {
             <Container style={{border: 0, marginTop: 20}}>
                 <Row>
                     <Col>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <h1>Tickets History</h1>
                         </div>
                     </Col>
                 </Row>
                 {
                     Tickets.map((ticket) => (
-                        <Ticket key={ticket.id} ticket={ticket} />
+                        <Ticket key={ticket.id} ticket={ticket}/>
                     ))}
 
-            </Container >
+            </Container>
             <Footer></Footer>
         </div>
     )
