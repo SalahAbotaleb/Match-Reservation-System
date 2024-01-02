@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import axios from "../../API/axios";
 
 const GetUserId = async () => {
-  const response = await axios.get("/userId", {withCredentials: true});
+  const response = await axios.get("/userId", { withCredentials: true });
   var User_ID = response.data;
   console.log("UserID");
   console.log(response);
@@ -40,7 +40,7 @@ const Ticket = ({ ticket }) => {
   }
   //same as navbar, text white and bold
   return (
-    <Container className='Ticket container-sm' style={{ border: 0, height: 200, paddingTop: 10 }}>
+    <Container className='Ticket container-sm' style={{ border: 0, minHeight: 200, paddingTop: 10 }}>
       <Row>
         <Col>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -59,15 +59,26 @@ const Ticket = ({ ticket }) => {
         <Col> Ticket ID: {ticket._id} </Col>
       </Row>
 
-      <Row style={{ marginLeft: 100, marginTop: 10 }}>
-        <Col> Row: {ticket.locations[0].row} </Col>
-        <Col> Column: {ticket.locations[0].column} </Col>
-      </Row>
+      {ticket.locations.map((location, index) => {
+        console.log("location");
+        console.log(location);
 
-      <div style={{ marginBottom: 5, marginRight: 20,display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
+        return (
+          <Row key={index} style={{ marginLeft: 100, marginTop: 10 }}>
+            <Col> Row: {location.row} </Col>
+            <Col> Column: {location.column} </Col>
+          </Row>
+        );
+      })}
+
+
+
+
+
+      <div style={{ marginBottom: 10, marginRight: 20, display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
         <Row>
           <Col>
-            <Button className='Cancel' style={{backgroundColor: 'white', borderColor: 'black', color: 'black'}} onClick={(e) => deleteticket(e)}> Cancel Reservation </Button>
+            <Button className='Cancel' style={{ backgroundColor: 'white', borderColor: 'black', color: 'black' }} onClick={(e) => deleteticket(e)}> Cancel Reservation </Button>
           </Col>
         </Row>
       </div>
