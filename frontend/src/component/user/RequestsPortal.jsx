@@ -7,8 +7,11 @@ import { useState, useEffect } from "react";
 import "./RequestsPortal.css";
 
 async function getrequests() {
-  const response = await fetch('http://localhost:3000/requests');
-  return response.json();
+  const response = await fetch('http://localhost:3000/requests', {
+      credentials: 'include'
+  });
+  console.log(response);
+  return response;
 }
 
 const RequestsPortal = () => {
@@ -51,7 +54,7 @@ const RequestsPortal = () => {
 
   return (
     <div className='PageRequests'>
-      <NavBar></NavBar>
+      <NavBar loggedIn={true} ></NavBar>
       <Container style={{ border: 0, marginTop: 20, minHeight: '100%' }}>
         <Row>
           <Col>
