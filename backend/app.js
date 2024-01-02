@@ -93,12 +93,14 @@ app.post('/login', passport.authenticate("local"), (req, res) => {
      */
     req.session.user_id = req.user._id;
     req.session.user_role = req.user.role;
-    req.session.status = req.user.status
+    req.session.status = req.user.status;
+
     res.status(200).send({ ...userDataObject, success: true, id: req.user._id });
 });
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
+    console.log("logged out ");
     res.status(200).send("logged out");
 });
 
@@ -172,12 +174,19 @@ app.get('/users', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     res.send(users);
 }));
 
-app.get('/users/:id', authorizeUser(["admin", "manager", "fan"]), asyncHandler(async (req, res) => {
-    if (req.session.role != "admin" && req.session.user_id != req.params.id) {
+// authorizeUser(["admin", "manager", "fan"])
+app.get('/users/:id', asyncHandler(async (req, res) => {
+    // console.log(req.session.user_id);
+    console.log(req.session.user_role);
+    console.log(req.session.user_id);
+    console.log(req.params.id)
+    if (req.session.user_role != "admin" && req.session.user_id != req.params.id) {
         return res.status(401).send("Unauthorized");
     }
 
     const user = await userModel.findById(req.params.id);
+    console.log("user");
+    console.log(user);
     res.send(user);
 }));
 
@@ -219,11 +228,29 @@ app.delete('/users/:id/tickets/:ticketId', authorizeUser(["fan"]), asyncHandler(
     res.status(200).send("Ticket cancelled successfully");
 
 }));
+app.get('/userId', asyncHandler(async (req, res) => {
+    if (req.session.user_id) {
+        res.status(200).send(req.session.user_id);
+    } else {
+        res.status(401).send("Unauthorized");
+    }
+}));
 
+app.get('/userRole', asyncHandler(async (req, res) => {
+    if (req.session.user_role) {
+        res.status(200).send(req.session.user_role);
+    } else {
+        res.status(401).send("Unauthorized");
+    }
+}));
 app.post('/users/:id', asyncHandler(async (req, res) => {
+    // console.log("Update user")
+    // console.log(req.session.user_id);
+    // console.log(req.params.id);
+
     if (req.session.user_id != req.params.id)
         return res.status(401).send("Unauthorized");
-    await userMode.findByIdAndUpdate(req.params.id, req.body);
+    await userModel.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).end();
 }));
 
