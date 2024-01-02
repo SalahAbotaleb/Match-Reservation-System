@@ -34,11 +34,9 @@ const Stadiumspage = () => {
             setStadiums(data);
         });
     }, []);
-
     const [showadd, setaddbutton] = useState(false)
 
     const [CurrentUserState, setUserState] = useState(intialFormState); // state is an object that has all the values of the form
-
     const [isUniquestadium, setUniquestdium] = useState(uniqueStadium);
 
     if (isUniquestadium) {
@@ -56,37 +54,29 @@ const Stadiumspage = () => {
             setUniquestdium(false);
         }
     }
-
+    
     const handlesubmit = async (e) => {
-        e.preventDefault();
-        const dataToSend = {
-            name: CurrentUserState.stadiumname,
-            rows: CurrentUserState.rows,
-            columns: CurrentUserState.columns,
-            location: CurrentUserState.Government,
-        }
-
-        try {
-            const response = await axios.request({
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: 'http://localhost:3000/stadiums',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: JSON.stringify(dataToSend),
-            });
-
-
-            console.log(response.data);
-        } catch (err) {
-            console.log(err.message);
-        }
+      e.preventDefault();
+      const dataToSend = {
+        name: CurrentUserState.stadiumname,
+        location: CurrentUserState.Government,
+        dimensions: {rows: CurrentUserState.rows, columns: CurrentUserState.columns},
+      }  
+      try {
+        const response = await axios.post('/stadiums',
+          JSON.stringify(dataToSend),
+          { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        );
+        console.log("Teraaaa respond");
+        console.log(response.data);
+      } catch (err) {
+        console.log(err.message);
+      }
     }
 
     return (
         <div className="PageStadiums">
-            <NavBar></NavBar>
+            <NavBar loggedIn={true}></NavBar>
             <Container className="page">
                 <Row>
                     <Col>
