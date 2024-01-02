@@ -1,7 +1,6 @@
 module.exports = (userType) => {
     return function (req, res, next) {
-        console.log(req.session.user_id );
-        if (req.session.user_id == null) {
+      if (req.session.user_id == null) {
             return res.status(401).send("Unauthorized");
         }
         if (req.session.status == "pending") {

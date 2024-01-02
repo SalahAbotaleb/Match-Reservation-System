@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+
+  margin: 30px auto;
+  overflow: auto;
+  min-height: 300px;
+  border: 1px solid steelblue;
+  padding: 30px;
+  border-radius: 5px;
+
+  font-family: 'Quicksand';
+  font-weight: bold;
+  grid-template-columns: 5fr 2fr;
+  grid-template-rows: 1fr;
+  background-color: #889fab;
+  border: 0;
+}
+
+.PageStadiums {
+  display: grid;
+  font-family: 'Quicksand';
+  font-weight: bold;; 
+  grid-template-rows: 1fr;
+  background-color: #EEEEEE;
+  height: max-content;
+}
+
+.FormInputBoxSP{
+  width: 1000px;
+  height: 50px;
+  border-radius: 6px;
+  background-color: #eff7fc;
+  margin-bottom: 10px;
+  color: #242424;
+  border : none; 
+  font-size: 16px;
+}

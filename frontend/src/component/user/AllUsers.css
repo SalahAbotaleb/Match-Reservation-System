@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+
+
+.alluserspage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  min-height: 100vh;
+  width: 100%;
+  
+  overflow: auto;
+  border: 1px solid steelblue;
+  border-radius: 5px;
+  font-family: 'Quicksand';
+  font-weight: bold;
+  background-color: #889fab;
+  border: 0;
+  
+}
+
+
+.AllUserspage {
+  display: grid;
+  font-family: 'Quicksand';
+  font-weight: bold;; 
+  grid-template-rows: 1fr;
+  background-color: #EEEEEE;
+  height: max-content;
+}

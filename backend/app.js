@@ -104,11 +104,6 @@ app.get('/logout', (req, res) => {
     res.status(200).send("logged out");
 });
 
-app.get('/teams', asyncHandler(async (req, res) => {
-    const teams = await teamModel.find({});
-    res.send(teams);
-}));
-
 app.get('/matches', asyncHandler(async (req, res) => {
     const todayDate = new Date();
     const matches = await matchModel.find({ date: { $gt: todayDate } }).populate("homeTeam").populate("awayTeam").populate("stadium");
@@ -120,7 +115,7 @@ app.get('/matches/:id', asyncHandler(async (req, res) => {
     res.send(match);
 }));
 
-app.post('/matches', asyncHandler(async (req, res) => {
+app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const match = new matchModel(req.body);
     await match.save();
     res.status(201).end();
@@ -166,6 +161,9 @@ app.get('/requests/:id', authorizeUser(["admin"]), asyncHandler(async (req, res)
 app.post('/requests/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     const action = req.body.action;
     const user = await userModel.findById(req.params.id);
+    console.log(action);
+    console.log(user);
+
     if (action === "accept") {
         user.status = "accepted";
     } else {
@@ -176,12 +174,12 @@ app.post('/requests/users/:id', authorizeUser(["admin"]), asyncHandler(async (re
 }));
 
 app.get('/users', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
-    const users = await userModel.find({});
+    const users = await userModel.find({ status: { $in: ["accepted", "pending"] } });
     res.send(users);
 }));
 
 // authorizeUser(["admin", "manager", "fan"])
-app.get('/users/:id', asyncHandler(async (req, res) => {
+app.get('/users/:id', authorizeUser(["admin", "manager", "fan"]), asyncHandler(async (req, res) => {
     // console.log(req.session.user_id);
     if (req.session.user_role != "admin" && req.session.user_id != req.params.id) {
         return res.status(401).send("Unauthorized");
@@ -253,8 +251,12 @@ app.post('/users/:id', asyncHandler(async (req, res) => {
 }));
 
 app.delete('/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
+    console.log("deleted User ID ");
+    console.log(req.params.id);
+
     const user = await userModel.findById(req.params.id);
-    await user.remove();
+    console.log(user);
+    await userModel.findOneAndDelete({ _id: req.params.id });
     res.status(200).send(`user ${user.username} deleted`);
 }));
 

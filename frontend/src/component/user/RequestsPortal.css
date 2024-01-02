@@ -1,0 +1,33 @@
+
+
+
+  .PageRequests {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.FooterPos{
+  margin-top: auto;
+}
+
+  
+  .Request {
+    background-color: rgb(194, 218, 234);
+    margin: 20px;
+    border-radius: 20px;
+  }
+  
+  .Request:hover {
+    background-color: #bab6b9;
+  }
+  
+  .NavPortal{
+    position: absolute;
+    bottom: 0;
+  }
+  
+  
