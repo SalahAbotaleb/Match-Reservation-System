@@ -258,8 +258,12 @@ app.post('/users/:id', asyncHandler(async (req, res) => {
 }));
 
 app.delete('/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
+    console.log("deleted User ID ") ; 
+    console.log(req.params.id);
+
     const user = await userModel.findById(req.params.id);
-    await user.remove();
+    console.log(user);
+    await userModel.findOneAndDelete({ _id: req.params.id });
     res.status(200).send(`user ${user.username} deleted`);
 }));
 

@@ -50,7 +50,7 @@ const Login = () => {
             if (data.success) {
                 setUserState(prevState => ({ ...prevState, success: true }))
                 // console.log(data.id);
-                navigate(`/Userprofile/${data.id}`); // suppose to be user home page or user profile page
+                navigate(`/Userprofile`); // suppose to be user home page or user profile page
             }
         } catch (Err) {
             setUserState(prevState => ({ ...prevState, success: false }))

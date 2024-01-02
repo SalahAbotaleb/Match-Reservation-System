@@ -278,9 +278,10 @@ function ProfileForm(props) {
                             <Form.Label>Role</Form.Label>
                             <br />
                             <Form.Select className="FormInputBox"
-                                onChange={handleOnChange}
-                                value={CurrentUserState.Role}
-                                name="role" required>
+                                value={CurrentUserState.role}
+                                name="role"
+                                required
+                                readOnly>
                                 <option>fan</option>
                                 <option>manager </option>
                             </Form.Select>

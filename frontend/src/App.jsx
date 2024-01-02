@@ -18,15 +18,15 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/UserHomeTest" element={<UserHomeTest />} />
-                    <Route path="/Userprofile/:id" element={<Userprofile />} />
+                    <Route path="/Userprofile" element={<Userprofile />} />
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/matches" element={<Matches />} />
-                    <Route path={'/match/:id'} element={<Match/>}/>
-                    <Route path="/AddMatch" element={<AddMatch/>}/>
-                    <Route path="/Portal" element={<RequestsPortal/>}/>
-                    <Route path="/CurrentUsers" element={<AllUsers/>}/>
+                    <Route path={'/match/:id'} element={<Match />} />
+                    <Route path="/AddMatch" element={<AddMatch />} />
+                    <Route path="/Portal" element={<RequestsPortal />} />
+                    <Route path="/CurrentUsers" element={<AllUsers />} />
 
                 </Routes>
             </BrowserRouter>
