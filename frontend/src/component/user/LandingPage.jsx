@@ -79,10 +79,15 @@ const UserExFeature = () => {
 }
 
 
-const ImgSection = () => {
+const ImgSection = (props) => {
     const navigate = useNavigate();
     const handleBook = () => {
-        navigate("/signup");
+        // eslint-disable-next-line react/prop-types
+        if (props.Role === 'fan' || props.Role === 'manager' || props.Role === 'admin') {
+            navigate("/matches");
+        } else {
+            navigate("/signup");
+        }
     }
     return (
         <div className="imgSection">
@@ -123,7 +128,7 @@ const LandingPage = () => {
     return (
         <div>
             <NavBar loggedIn={Role === 'fan' || Role === 'manager' || Role === 'admin'} />
-            <ImgSection />
+            <ImgSection Role={Role} />
             <Features />
             <UserExFeature />
             <Footer />
