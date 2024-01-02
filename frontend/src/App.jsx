@@ -5,6 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./component/user/LandingPage";
 import UserHomeTest from "./component/user/UserHomeTest";
 import Userprofile from "./component/user/Userprofile";
+import Matches from "./component/Matches/Matches.jsx";
+import Match from "./component/Matches/match.jsx";
+import AddMatch from "./component/Matches/AddMatch.jsx";
 
 function App() {
     return (
@@ -16,6 +19,9 @@ function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/matches" element={<Matches />} />
+                    <Route path={'/match/:id'} element={<Match/>}/>
+                    <Route path="/AddMatch" element={<AddMatch/>}/>
                 </Routes>
             </BrowserRouter>
 

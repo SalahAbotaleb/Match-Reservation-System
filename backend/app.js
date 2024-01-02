@@ -104,6 +104,11 @@ app.get('/logout', (req, res) => {
     res.status(200).send("logged out");
 });
 
+app.get('/teams', asyncHandler(async (req, res) => {
+    const teams = await teamModel.find({});
+    res.send(teams);
+}));
+
 app.get('/matches', asyncHandler(async (req, res) => {
     const todayDate = new Date();
     const matches = await matchModel.find({ date: { $gt: todayDate } }).populate("homeTeam").populate("awayTeam").populate("stadium");
@@ -115,7 +120,7 @@ app.get('/matches/:id', asyncHandler(async (req, res) => {
     res.send(match);
 }));
 
-app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
+app.post('/matches', asyncHandler(async (req, res) => {
     const match = new matchModel(req.body);
     await match.save();
     res.status(201).end();
@@ -260,6 +265,21 @@ app.delete('/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res)
     res.status(200).send(`user ${user.username} deleted`);
 }));
 
+app.get('/userId', asyncHandler(async (req, res) => {
+    if (req.session.user_id) {
+        res.status(200).send(req.session.user_id);
+    } else {
+        res.status(401).send("Unauthorized");
+    }
+}));
+
+app.get('/userRole', asyncHandler(async (req, res) => {
+    if (req.session.user_role) {
+        res.status(200).send(req.session.user_role);
+    } else {
+        res.status(401).send("Unauthorized");
+    }
+}));
 
 app.get('/matches/:id/reservations', asyncHandler(async (req, res) => {
     const locations = await matchModel.findById(req.params.id).select("reservationMap");
