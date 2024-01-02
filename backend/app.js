@@ -91,21 +91,19 @@ app.post('/login', passport.authenticate("local"), (req, res) => {
     /**
      * For each request we will store the user id in the session
      */
-    if(req.user.status === "pending"){
+    if (req.user.status === "pending") {
 
         return res.status(401).send("Unauthorized");
     }
-    
+
     req.session.user_id = req.user._id;
     req.session.user_role = req.user.role;
     req.session.status = req.user.status;
-    console.log("logged in ");
     res.status(200).send({ ...userDataObject, success: true, id: req.user._id });
 });
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    console.log("logged out ");
     res.status(200).send("logged out");
 });
 
@@ -127,7 +125,6 @@ app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) =
 }));
 
 app.post('/matches/:id', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
-    console.log(req.body);
     const match = await matchModel.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).end();
 }));
@@ -166,8 +163,6 @@ app.get('/requests/:id', authorizeUser(["admin"]), asyncHandler(async (req, res)
 app.post('/requests/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
     const action = req.body.action;
     const user = await userModel.findById(req.params.id);
-    console.log(action);
-    console.log(user);
 
     if (action === "accept") {
         user.status = "accepted";
@@ -185,7 +180,6 @@ app.get('/users', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
 
 // authorizeUser(["admin", "manager", "fan"])
 app.get('/users/:id', authorizeUser(["admin", "manager", "fan"]), asyncHandler(async (req, res) => {
-    // console.log(req.session.user_id);
     if (req.session.user_role != "admin" && req.session.user_id != req.params.id) {
         return res.status(401).send("Unauthorized");
     }
@@ -228,11 +222,15 @@ app.delete('/users/:id/tickets/:ticketId', authorizeUser(["fan"]), asyncHandler(
     if (threeDaysBeforeMatch <= todayDate) {
         res.status(400).send("You can cancel your ticket only 3 days before the match");
     }
-    await ticketToRemove.remove();
+    await userModel.updateOne(
+        { _id: req.params.id },
+        { $pull: { tickets: req.params.ticketId } }
+    );
     await ticketModel.findOneAndDelete({ _id: req.params.ticketId });
     res.status(200).send("Ticket cancelled successfully");
 
 }));
+
 app.get('/userId', asyncHandler(async (req, res) => {
     if (req.session.user_id) {
         res.status(200).send(req.session.user_id);
@@ -257,11 +255,7 @@ app.post('/users/:id', asyncHandler(async (req, res) => {
 }));
 
 app.delete('/users/:id', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
-    console.log("deleted User ID ");
-    console.log(req.params.id);
-
     const user = await userModel.findById(req.params.id);
-    console.log(user);
     await userModel.findOneAndDelete({ _id: req.params.id });
     res.status(200).send(`user ${user.username} deleted`);
 }));
@@ -286,8 +280,6 @@ app.get('/matches/:id/reservationsAfter', asyncHandler(async (req, res) => {
 }));
 
 app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async (req, res) => {
-    console.log(req.body);
-    console.log(req.params.id);
     const locations = req.body.locations;
     const matchId = req.params.id;
     const match = await matchModel.findById(matchId);
