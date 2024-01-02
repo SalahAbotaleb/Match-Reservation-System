@@ -27,6 +27,11 @@ function App() {
                     <Route path="/AddMatch" element={<AddMatch />} />
                     <Route path="/Portal" element={<RequestsPortal />} />
                     <Route path="/CurrentUsers" element={<AllUsers />} />
+                    <Route path={'/match/:id'} element={<Match />} />
+                    <Route path="/AddMatch" element={<AddMatch />} />
+                    <Route path="/Portal" element={<RequestsPortal />} />
+                    <Route path="/CurrentUsers" element={<AllUsers />} />
+                    <Route path="/Stadiums" element={<StadiumsPage />} />
 
                 </Routes>
             </BrowserRouter>
