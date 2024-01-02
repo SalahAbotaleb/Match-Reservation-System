@@ -79,7 +79,7 @@ function NavBar(props) {
                         <Nav.Link className="LinkHover" href="/">Contact us</Nav.Link>
                         <NavDropdown title="Services" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">view future matches</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2"> book your seat </NavDropdown.Item>
+                            <NavDropdown.Item href="/matches"> book your seat </NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Add accouncment to a match </NavDropdown.Item>
                             <NavDropdown.Item href="/UserProfile">profile </NavDropdown.Item>
                             <NavDropdown.Divider />

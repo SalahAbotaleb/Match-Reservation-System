@@ -16,8 +16,8 @@ import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 import TextField from "@mui/material/TextField";
 
-const steps = ['Select Your Seat', 'Pay', 'Summary'];
-export default function Reserve({reserve, match}) {
+const steps = ['Select Your Seat', 'Pay'];
+export default function Reserve({reserve, match, setMatches}) {
     const closereserve = () => {
         reserve(null);
     }
@@ -25,7 +25,6 @@ export default function Reserve({reserve, match}) {
     const [activeStep, setActiveStep] = useState(0);
     const [tprice, setTprice] = useState(0);
     const [reservedseats, setReservedseats] = useState([]);
-
 
 
     const handleNext = () => {
@@ -54,6 +53,7 @@ export default function Reserve({reserve, match}) {
                 width: 0.9,
                 height: 0.8,
                 boxShadow: 24,
+                borderRadius: 2,
                 p: 4,
                 m: 'auto',
                 overflowX: 'auto',
@@ -72,12 +72,14 @@ export default function Reserve({reserve, match}) {
                 <Grid container direction={'column'} justifyContent={'center'} alignItems={'center'} height={0.9}
                       position={'absolute'}>
 
-                    <SeatGrid hidden={activeStep !== 0} match={match} setReservedSeats={setReservedseats} setTprice={setTprice}/>
+                    <SeatGrid hidden={activeStep !== 0} match={match} setReservedSeats={setReservedseats}
+                              setTprice={setTprice}/>
 
-                    <PayReservation hidden={activeStep !== 1} reservedSeats={reservedseats}
+                    <PayReservation setMatches={setMatches} matchId={match._id} hidden={activeStep !== 1}
+                                    reservedSeats={reservedseats}
                                     handleBack={handleBack} handleNext={handleNext}/>
 
-                    {activeStep !== steps.length && activeStep !== steps.length - 2 ? (
+                    {activeStep !== steps.length && activeStep !== steps.length - 1 ? (
                         <Grid item container justifyContent='end' position='absolute' bottom={0} right={0} mr={5} p={2}>
                             <Grid item>
                                 <Button
@@ -90,9 +92,7 @@ export default function Reserve({reserve, match}) {
                                 </Button>
                             </Grid>
                             <Grid item>
-                                <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Done' : 'Next'}
-                                </Button>
+                                <Button onClick={handleNext}>Next</Button>
                             </Grid>
                         </Grid>) : null
                     }

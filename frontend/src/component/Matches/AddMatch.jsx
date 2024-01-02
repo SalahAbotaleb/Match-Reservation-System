@@ -56,6 +56,7 @@ export default function AddMatch({close}) {
                 width: 0.9,
                 height: 0.8,
                 boxShadow: 24,
+                borderRadius: 2,
                 p: 4,
                 m: 'auto',
                 overflowX: 'auto',

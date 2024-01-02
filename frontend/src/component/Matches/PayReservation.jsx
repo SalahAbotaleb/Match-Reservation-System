@@ -4,14 +4,47 @@ import TextField from "@mui/material/TextField";
 import {useState} from "react";
 import Button from "@mui/material/Button";
 
-export default function PayReservation({hidden, reservedSeats, handleBack, handleNext}) {
+export default function PayReservation({setMatches, matchId, hidden, reservedSeats, handleBack, handleNext}) {
     const [creditcard, setCreditcard] = useState('');
     const [cvv, setCvv] = useState('');
 
+    const reserveMatch = async () => {
+        const response = await fetch('http://localhost:3000/matches/' + matchId + '/reservations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                locations: reservedSeats.map((seat) => ({
+                    row: seat.row,
+                    column: seat.column
+                })),
+                cardNumber: creditcard,
+                cardPin: cvv
+            }),
+            credentials: 'include'
+        });
+        return response.status;
+    }
     const handleReserve = () => {
         if (creditcard && cvv) {
-            alert('Reservation Successful');
-            handleNext();
+            reserveMatch().then((data) => {
+                if (data === 201) {
+                    setMatches((prevMatches) => {
+                        return prevMatches.map((match) => {
+                            if (match._id === matchId) {
+                                match.reservationMap = [...match.reservationMap, ...reservedSeats];
+                            }
+                            return match;
+                        });
+                    });
+                    alert('Reservation successful!')
+
+                    handleNext();
+                } else {
+                    alert('Reservation failed!')
+                }
+            });
         }
     }
 
@@ -21,7 +54,7 @@ export default function PayReservation({hidden, reservedSeats, handleBack, handl
             <Grid container spacing={1}>
                 {reservedSeats.map((seat) => (
                     <Grid item>
-                        <Typography variant={"subtitle1"}>[Row: {seat.row + 1} Column: {seat.column + 1}]</Typography>
+                        <Typography variant={"subtitle1"}>[Row: {seat.row} Column: {seat.column}]</Typography>
                     </Grid>
                 ))}
             </Grid>

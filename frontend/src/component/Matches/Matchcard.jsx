@@ -7,12 +7,11 @@ import StadiumIcon from '@mui/icons-material/Stadium';
 import SportsIcon from '@mui/icons-material/Sports';
 import FlagIcon from '@mui/icons-material/Flag';
 import {useNavigate} from "react-router-dom";
-export default function Matchcard({match, reserve, edit}) {
+export default function Matchcard({match, reserve, edit, role}) {
     const navigate = useNavigate();
     const handleViewMatch = () => {
-        navigate('/login');
-        reserve(match);
-        edit(match);
+        role === 'Unauthorized' ? navigate('/login') : role === 'fan'? reserve(match) : edit(match);
+        // edit(match);
     }
     const reservematch = () => {
         reserve(match);
@@ -45,7 +44,7 @@ export default function Matchcard({match, reserve, edit}) {
 
                 <Grid item container direction='column' spacing={1}>
                     <Grid item>
-                        <Button onClick={reservematch} variant='contained' size={'large'} >View match</Button>
+                        <Button onClick={handleViewMatch} variant='contained' size={'large'} >View match</Button>
                     </Grid>
                     <Grid item>
                         <Typography variant='p' fontFamily='quicksand' color={'grey'}>
