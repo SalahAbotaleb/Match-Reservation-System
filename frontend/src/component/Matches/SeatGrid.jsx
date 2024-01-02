@@ -14,23 +14,29 @@ export default function SeatGrid({match, hidden, setReservedSeats, setTprice}) {
         for (let i = 0; i < match.stadium.dimensions.rows; i++) {
             let row = [];
             for (let j = 0; j < match.stadium.dimensions.columns; j++) {
-                row.push({row: i, column: j, color: 'success'});
+                row.push({row: i + 1, column: j + 1, color: 'success'});
             }
             setSeats((prevSeats) => [...prevSeats, row]);
+        }
+        for (let seat of match.reservationMap) {
+            setSeats((prevSeats) => {
+                prevSeats[seat.row - 1][seat.column - 1].color = 'error';
+                return prevSeats;
+            });
         }
     }, []);
     const handleSeatClick = (seat) => {
         if (seat.color === 'success') {
-            setTprice((prev) => prev + 10);
+            setTprice((prev) => prev + match.ticketPrice);
             setSeats((prevSeats) => {
-                prevSeats[seat.row][seat.column].color = 'primary';
+                prevSeats[seat.row - 1][seat.column - 1].color = 'primary';
                 return prevSeats;
             });
             setReservedSeats((prevSeats) => [...prevSeats, seat]);
         } else if (seat.color === 'primary') {
-            setTprice((prev) => prev - 10);
+            setTprice((prev) => prev - match.ticketPrice);
             setSeats((prevSeats) => {
-                prevSeats[seat.row][seat.column].color = 'success';
+                prevSeats[seat.row - 1][seat.column - 1].color = 'success';
                 return prevSeats;
             });
             setReservedSeats((prevSeats) => prevSeats.filter((s) => s.row !== seat.row || s.column !== seat.column));
@@ -60,7 +66,7 @@ export default function SeatGrid({match, hidden, setReservedSeats, setTprice}) {
                             <Grid key={rowIndex} container justifyContent='center' wrap spacing={0.5}>
                                 {row.map((seat, seatIndex) => (
                                     <Grid key={seatIndex} item>
-                                        <IconButton onClick={() => handleSeatClick(seat)}>
+                                        <IconButton disabled={seat.color==='error'} onClick={() => handleSeatClick(seat)}>
                                             <EventSeatIcon color={seat.color}/>
                                         </IconButton>
                                     </Grid>

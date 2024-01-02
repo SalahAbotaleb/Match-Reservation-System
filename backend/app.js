@@ -99,8 +99,7 @@ app.post('/login', passport.authenticate("local"), (req, res) => {
     req.session.user_id = req.user._id;
     req.session.user_role = req.user.role;
     req.session.status = req.user.status;
-
-
+    console.log("logged in ");
     res.status(200).send({ ...userDataObject, success: true, id: req.user._id });
 });
 
@@ -128,6 +127,7 @@ app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) =
 }));
 
 app.post('/matches/:id', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
+    console.log(req.body);
     const match = await matchModel.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).end();
 }));
@@ -186,16 +186,11 @@ app.get('/users', authorizeUser(["admin"]), asyncHandler(async (req, res) => {
 // authorizeUser(["admin", "manager", "fan"])
 app.get('/users/:id', authorizeUser(["admin", "manager", "fan"]), asyncHandler(async (req, res) => {
     // console.log(req.session.user_id);
-    console.log(req.session.user_role);
-    console.log(req.session.user_id);
-    console.log(req.params.id)
     if (req.session.user_role != "admin" && req.session.user_id != req.params.id) {
         return res.status(401).send("Unauthorized");
     }
 
     const user = await userModel.findById(req.params.id);
-    console.log("user");
-    console.log(user);
     res.send(user);
 }));
 
@@ -253,9 +248,6 @@ app.get('/userRole', asyncHandler(async (req, res) => {
     }
 }));
 app.post('/users/:id', asyncHandler(async (req, res) => {
-    // console.log("Update user")
-    // console.log(req.session.user_id);
-    // console.log(req.params.id);
 
     if (req.session.user_id != req.params.id)
         return res.status(401).send("Unauthorized");
@@ -293,6 +285,8 @@ app.get('/matches/:id/reservationsAfter', asyncHandler(async (req, res) => {
 }));
 
 app.post('/matches/:id/reservations', authorizeUser(["fan"]), asyncHandler(async (req, res) => {
+    console.log(req.body);
+    console.log(req.params.id);
     const locations = req.body.locations;
     const matchId = req.params.id;
     const match = await matchModel.findById(matchId);

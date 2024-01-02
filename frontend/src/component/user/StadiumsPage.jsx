@@ -34,11 +34,7 @@ const Stadiumspage = () => {
     const [showadd, setaddbutton] = useState(false)
 
     const [CurrentUserState, setUserState] = useState(intialFormState); // state is an object that has all the values of the form
-    const [isUniquestadium, setUniquestdium] = useState(uniqueStadium);
 
-    if (isUniquestadium) {
-        console.log("Stadium name is unique");
-    }
     useEffect(() => { }, [CurrentUserState])
 
     function handleOnChange(e) {

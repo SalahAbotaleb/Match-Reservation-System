@@ -16,10 +16,9 @@ async function getmatches() {
 
 async function getRole() {
     const response = await fetch('http://localhost:3000/userRole', {
-        method: 'GET',
         credentials: 'include'
     });
-    return response.json();
+    return response.text();
 }
 
 export default function Matches() {
@@ -30,10 +29,9 @@ export default function Matches() {
     const [role, setRole] = useState(null);
 
     useEffect(() => {
-        // getRole().then((data) => {
-        //     setRole(data);
-        // });
-        setRole('')
+        getRole().then((data) => {
+            setRole(data);
+        });
         getmatches().then((data) => {
             setMatches(data);
         });
@@ -45,22 +43,22 @@ export default function Matches() {
             <Typography color='#eeeeee' variant='h3' fontFamily={'quicksand'} marginBottom={0}>
                 Upcoming Matches:
             </Typography>
-            <Button onClick={() => setAddmatch(true)} variant='contained' size={'large'} sx={{margin: 1}}>Add match</Button>
+            {role === 'manager' && <Button onClick={() => setAddmatch(true)} variant='contained' size={'large'} sx={{margin: 1}}>Add match</Button>}
             <Grid container spacing={2}>
                 {matches.map((match) => (
                     <Grid item xs={12} md={6} xl={6}>
-                        <Matchcard match={match} reserve={setReservematch} edit={setEditmatch}/>
+                        <Matchcard role={role} match={match} reserve={setReservematch} edit={setEditmatch}/>
                     </Grid>
                 ))}
             </Grid>
             {/*<Backdrop sx={{color: '#fff'}} open={matches.length === 0}>*/}
             {/*    <Typography variant='h3' fontFamily={'quicksand'}>No matches available</Typography>*/}
             {/*</Backdrop>*/}
-            <Modal open={false}>
-                <Reserve reserve={setReservematch} match={reservematch} />
-            </Modal>
             <Modal open={reservematch !== null}>
-                <EditMatch match={reservematch} close={setReservematch}/>
+                <Reserve reserve={setReservematch} match={reservematch} setMatches={setMatches}/>
+            </Modal>
+            <Modal open={editmatch !== null}>
+                <EditMatch match={editmatch} close={setEditmatch} setMatches={setMatches}/>
             </Modal>
             <Modal open={addmatch}>
                 <AddMatch close={setAddmatch}/>
