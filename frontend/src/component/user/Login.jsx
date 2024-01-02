@@ -10,8 +10,9 @@ import axios from '../../API/axios';
 
 const TextError = (props) => {
     return props.success ? (<p></p>) : (
-        <p className="text-danger" >incorrect username or password </p>
+        <p className="text-danger" >incorrect username/password Or your status is still <mark>pending</mark>  </p>
     )
+
 }
 TextError.propTypes = {
     success: PropTypes.bool.isRequired,
