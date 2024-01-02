@@ -230,8 +230,8 @@ function RegistrationFrom() {
                             onChange={handleOnChange}
                             value={CurrentUserState.Role}
                             name="Role" required>
-                            <option>Fan</option>
-                            <option>Manager </option>
+                            <option>fan</option>
+                            <option>manager </option>
                         </Form.Select>
 
                     </Form.Group>

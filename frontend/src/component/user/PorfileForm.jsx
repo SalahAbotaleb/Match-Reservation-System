@@ -18,16 +18,16 @@ const initPasswordVerification = {
 };
 
 const IntialUserState = {
-    FirstName: "",
-    LastName: "",
-    UserName: "",
-    Email: "",
-    City: "",
-    Address: "",
-    Birthdate: "",
-    gender: "Male",
-    Role: "Fan",
-    Password: "",
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    city: "",
+    address: "",
+    birthdate: "",
+    gender: "male",
+    role: "fan",
+    password: "",
     ConfirmedPassword: "",
 };
 
@@ -40,14 +40,25 @@ ProfileForm.propTypes = {
 // const pageloaded = false;
 
 function ProfileForm(props) {
-    console.log(IntialUserState);
+
+    const [CurrentUserState, setCurrentUserState] = useState(IntialUserState);
+    const [CurrPasswordVerification, setPassword] = useState(initPasswordVerification);
+
+    const GetUserId = async () => {
+        const response = await axios.get(`/ge`, { withCredentials: true });
+
+
+    }
+
     const fetchUserData = async () => {
         try {
-            const response = await axios.get(`/users/${props.userID}`);
+            const response = await axios.get(`/users/${props.userID}`, { withCredentials: true });
             console.log("data fetched here ");
             console.log(response.data);
 
-            setCurrentUserState(response.data);
+            setCurrentUserState(prevState => ({ ...prevState, ...response.data }));
+            console.log("current user state");
+            console.log(CurrentUserState);
 
         } catch (error) {
             console.error('Error:', error);
@@ -64,11 +75,10 @@ function ProfileForm(props) {
     }, []);
 
 
-    const [CurrentUserState, setCurrentUserState] = useState(IntialUserState);
-    const [CurrPasswordVerification, setPassword] = useState(initPasswordVerification);
 
 
     function handleOnChange(e) {
+        e.preventDefault();
         const value = e.target.value;
         const name = e.target.name;
         setCurrentUserState(prevState => ({ ...prevState, [name]: value }));
@@ -101,7 +111,43 @@ function ProfileForm(props) {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        console.log("current user state");
+        console.log(CurrentUserState);
+        let dataToSend = {
+            username: CurrentUserState.username,
+            firstName: CurrentUserState.firstName,
+            lastName: CurrentUserState.lastName,
+            birthDate: CurrentUserState.birthdate,
+            gender: CurrentUserState.gender,
+            city: CurrentUserState.city,
+            address: CurrentUserState.address,
+            email: CurrentUserState.email,
+            role: CurrentUserState.role,
+        };
+        if (CurrentUserState.password !== "") {
+            dataToSend = {
+                ...dataToSend,
+                password: CurrentUserState.password,
+            };
+        }
 
+        try {
+            // eslint-disable-next-line no-unused-vars
+            const response = await axios.post(`/users/${props.userID}`,
+                JSON.stringify(dataToSend),
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+
+            console.log("response after update");
+            console.log(response);
+            window.location.reload();
+        } catch (err) {
+            console.log(err.message);
+        }
+
+
+
+        console.log(dataToSend);
     }
 
 
@@ -128,7 +174,7 @@ function ProfileForm(props) {
                                 className="FormInputBox"
                                 type="text"
                                 name="FirstName"
-                                value={CurrentUserState.FirstName}
+                                value={CurrentUserState.firstName}
                                 onChange={handleOnChange}
                                 placeholder="First Name"
                             />
@@ -142,8 +188,8 @@ function ProfileForm(props) {
                                 type="text"
                                 name="LastName"
                                 onChange={handleOnChange}
-                                value={CurrentUserState.LastName}
-                                placeholder={CurrentUserState.LastName}
+                                value={CurrentUserState.lastName}
+                                placeholder={CurrentUserState.lastName}
                             />
                         </Form.Group>
 
@@ -154,8 +200,8 @@ function ProfileForm(props) {
                                 className="FormInputBox"
                                 type="text"
                                 name="UserName"
-                                value={IntialUserState.UserName}
-                                placeholder="User Name"
+                                value={CurrentUserState.username}
+                                placeholder={CurrentUserState.username}
                                 readOnly
                             />
                         </Form.Group>
@@ -166,8 +212,8 @@ function ProfileForm(props) {
                                 className="FormInputBox"
                                 type="email"
                                 name="Email"
-                                placeholder="Email"
-                                value={CurrentUserState.Email}
+                                placeholder={CurrentUserState.email}
+                                value={CurrentUserState.email}
                                 required
                                 readOnly
                             />
@@ -177,11 +223,11 @@ function ProfileForm(props) {
                             <Form.Label>City </Form.Label>
                             <br />
                             <Form.Control className="FormInputBox"
-                                value={CurrentUserState.City}
+                                value={CurrentUserState.city}
                                 type="text"
-                                name="City"
+                                name="city"
                                 onChange={handleOnChange}
-                                placeholder="City"
+                                placeholder={CurrentUserState.city}
                             />
                         </Form.Group>
 
@@ -189,11 +235,11 @@ function ProfileForm(props) {
                             <Form.Label>Address </Form.Label>
                             <br />
                             <Form.Control className="FormInputBox"
-                                value={CurrentUserState.Address}
+                                value={CurrentUserState.address}
                                 type="text"
                                 onChange={handleOnChange}
                                 name="Address"
-                                placeholder="Address" />
+                                placeholder={CurrentUserState.address} />
                         </Form.Group>
 
                         <Form.Group >
@@ -203,9 +249,9 @@ function ProfileForm(props) {
                                 className="FormInputBox"
                                 type="date"
                                 name="Birthdate"
-                                placeholder="Birthdate"
+                                placeholder={CurrentUserState.birthdate}
                                 onChange={handleOnChange}
-                                value={CurrentUserState.Birthdate}
+                                value={CurrentUserState.birthdate}
                             />
                         </Form.Group>
 
@@ -217,8 +263,8 @@ function ProfileForm(props) {
                                 name="gender"
                                 value={CurrentUserState.gender}
                                 required >
-                                <option>Male</option>
-                                <option>Female </option>
+                                <option>male</option>
+                                <option>female </option>
                             </Form.Select>
 
                         </Form.Group>
@@ -230,8 +276,8 @@ function ProfileForm(props) {
                                 onChange={handleOnChange}
                                 value={CurrentUserState.Role}
                                 name="Role" required>
-                                <option>Fan</option>
-                                <option>Manager </option>
+                                <option>fan</option>
+                                <option>manager </option>
                             </Form.Select>
 
                         </Form.Group>
@@ -271,7 +317,7 @@ function ProfileForm(props) {
 
                         </ul>
 
-                        <Button variant="dark" type="submit" disabled={CurrentUserState.Password != "" || Object.values(CurrPasswordVerification).includes(false)}>
+                        <Button variant="dark" type="submit" disabled={CurrentUserState.password !== "" && Object.values(CurrPasswordVerification).includes(false)}>
                             Update
                         </Button>
                     </Form >

@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 import brandLogo from "../../../images/logo2.svg";
 import Button from 'react-bootstrap/esm/Button';
 import PropTypes from 'prop-types';
-
+import axios from "../../../API/axios";
 // ...
 
 NavBar.propTypes = {
@@ -17,9 +17,22 @@ NavBar.propTypes = {
 
 const ButtonsUsed = (props) => {
 
+    const LogOut = async () => {
+
+        try {
+            const res = await axios.get('/logout', { withCredentials: true });
+            if (res) {
+                console.log(res);
+                window.location.href = '/';
+            }
+        } catch (Err) {
+            console.log(Err);
+        }
+    }
+
     if (props.loggedIn) {
         return (
-            <Button href="/" className="NavSignup"> LogOut  </Button>
+            <Button onClick={LogOut} href="/" className="NavSignup"> LogOut  </Button>
         )
     }
     else {
