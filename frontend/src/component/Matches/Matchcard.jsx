@@ -18,7 +18,7 @@ export default function Matchcard({match, reserve, edit, role}) {
     }
     return (
         <Paper elevation={3} sx={{
-            bgcolor: '#eeeeee',
+            bgcolor: '#dddddd',
             p: 2,
             marginX: 'auto',
             maxWidth: 600,
