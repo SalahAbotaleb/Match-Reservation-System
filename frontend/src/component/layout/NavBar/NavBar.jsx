@@ -85,6 +85,8 @@ function NavBar(props) {
                             <NavDropdown.Item href="/Portal">Portal </NavDropdown.Item>
                             <NavDropdown.Item href="/CurrentUsers">Users </NavDropdown.Item>
                             <NavDropdown.Item href="/Stadiums"> Stadiums </NavDropdown.Item>
+                            <NavDropdown.Item href="/Tickets"> My Tickets </NavDropdown.Item>
+
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">
                                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>

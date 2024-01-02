@@ -17,8 +17,8 @@ const Ticket = ({ ticket }) => {
           </div> </Col>
       </Row>
       <Row style={{ marginLeft: 100, marginTop: 10 }}>
-        <Col> Price: {ticket.Price} </Col>
-        <Col>Stadium: {ticket.locations}</Col>
+        <Col> Price: {ticket.totalPrice} </Col>
+        <Col>Stadium: </Col>
       </Row>
 
       <div style={{ marginTop: 10, display: 'flex', justifyContent: 'right', alignItems: 'center' }}>

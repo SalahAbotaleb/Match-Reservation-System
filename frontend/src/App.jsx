@@ -11,6 +11,7 @@ import AddMatch from "./component/Matches/AddMatch.jsx";
 import RequestsPortal from "./component/user/RequestsPortal.jsx";
 import StadiumsPage from "./component/user/StadiumsPage.jsx";
 import AllUsers from "./component/user/AllUsers.jsx";
+import TicketsPage from "./component/user/TicketsPage.jsx";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/Portal" element={<RequestsPortal/>}/>
                     <Route path="/CurrentUsers" element={<AllUsers/>}/>
                     <Route path="/Stadiums" element={<StadiumsPage/>}/>
+                    <Route path="/Tickets" element={<TicketsPage/>}/>
 
                 </Routes>
             </BrowserRouter>

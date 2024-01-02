@@ -1,15 +1,47 @@
+import { useState, useEffect } from "react";
 import Ticket from './Ticket'
 import "./TicketsPage.css";
 import Footer from '../layout/Footer/Footer'
 import NavBar from '../layout/NavBar/NavBar'
 import { Container, Row, Col } from "react-bootstrap";
+import axios from "../../API/axios";
+
+//make request on userID
+
+const GetUserId = async () => {
+    const response = await axios.get("/userId", { withCredentials: true });
+    var User_ID = response.data;
+    console.log("UserID");
+    console.log(response);
+    return User_ID;
+};
+
+const gettickets = async (id) => {
+    try {
+      const response = await axios.get(`/users/${id}/tickets`, { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
 const TicketsPage = () => {
 
-    async function getmatches() {
-        const response = await fetch('http://localhost:3000/matches');
-        return response.json();
-    }
+    const [Tickets, setTickets] = useState([]);
+                    console.log({Tickets})
+
+    useEffect(() => {
+        gettickets().then((data) => {
+            setTickets(data);
+        });
+    }, []);
+    
+    useEffect(() => {
+        GetUserId().then(userId => {
+            gettickets(userId);
+        });
+
+    }, []);
 
     const previoustickets =
         [
@@ -29,7 +61,7 @@ const TicketsPage = () => {
 
     return (
         <div className='PageTickets'>
-            <NavBar></NavBar>
+            <NavBar loggedIn={true}></NavBar>
             <Container style={{border: 0, marginTop: 20}}>
                 <Row>
                     <Col>
@@ -38,14 +70,11 @@ const TicketsPage = () => {
                         </div>
                     </Col>
                 </Row>
-
-                {previoustickets.length > 0 ? (
-                    previoustickets.map((ticket) => (
+                {
+                    Tickets.map((ticket) => (
                         <Ticket key={ticket.id} ticket={ticket} />
-                    ))
-                ) : (
-                    "Book Your first ticket"
-                )}
+                    ))}
+
             </Container >
             <Footer></Footer>
         </div>

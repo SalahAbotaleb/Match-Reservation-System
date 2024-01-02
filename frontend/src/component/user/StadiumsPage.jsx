@@ -21,9 +21,6 @@ const intialFormState = {
     Columns: "",
 };
 
-const REGISTER_ENDPOINT = "/stadiums";
-
-const uniqueStadium = false;
 
 const Stadiumspage = () => {
 
