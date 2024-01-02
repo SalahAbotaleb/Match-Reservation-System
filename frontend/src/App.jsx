@@ -10,6 +10,7 @@ import Match from "./component/Matches/match.jsx";
 import AddMatch from "./component/Matches/AddMatch.jsx";
 import RequestsPortal from "./component/user/RequestsPortal.jsx";
 import StadiumsPage from "./component/user/StadiumsPage.jsx";
+import AllUsers from "./component/user/AllUsers.jsx";
 
 function App() {
     return (
