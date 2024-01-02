@@ -232,6 +232,7 @@ function RegistrationFrom() {
                             name="Role" required>
                             <option>fan</option>
                             <option>manager </option>
+                            <option>admin </option>
                         </Form.Select>
 
                     </Form.Group>

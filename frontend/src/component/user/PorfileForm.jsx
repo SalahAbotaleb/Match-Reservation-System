@@ -44,15 +44,18 @@ function ProfileForm(props) {
     const [CurrentUserState, setCurrentUserState] = useState(IntialUserState);
     const [CurrPasswordVerification, setPassword] = useState(initPasswordVerification);
 
+
     const GetUserId = async () => {
-        const response = await axios.get(`/ge`, { withCredentials: true });
-
-
+        const response = await axios.get("/userId", { withCredentials: true });
+        var User_ID = response.data;
+        console.log("UserID");
+        console.log(response);
+        return User_ID;
     }
 
-    const fetchUserData = async () => {
+    const fetchUserData = async (User_ID) => {
         try {
-            const response = await axios.get(`/users/${props.userID}`, { withCredentials: true });
+            const response = await axios.get(`/users/${User_ID}`, { withCredentials: true });
             console.log("data fetched here ");
             console.log(response.data);
 
@@ -70,7 +73,10 @@ function ProfileForm(props) {
 
 
     useEffect(() => {
-        fetchUserData();
+        GetUserId().then(userId => {
+            fetchUserData(userId);
+        });
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -83,7 +89,7 @@ function ProfileForm(props) {
         const name = e.target.name;
         setCurrentUserState(prevState => ({ ...prevState, [name]: value }));
         let mconfirm = false;
-        if (name === "Password") {
+        if (name === "password") {
             const mislengthy = (value.length) >= 8;
             const mhasUpper = /[A-Z]/.test(value);
             const mhasLower = /[a-z]/.test(value);
@@ -99,7 +105,7 @@ function ProfileForm(props) {
             }))
         }
         if (name === "ConfirmedPassword") {
-            mconfirm = (CurrentUserState.Password === value);
+            mconfirm = (CurrentUserState.password === value);
             setPassword(prevState => ({
                 ...prevState,
                 Confirm: mconfirm,
@@ -167,16 +173,15 @@ function ProfileForm(props) {
                 <Col>
                     <Form onSubmit={handleUpdate}>
 
-                        <Form.Group  >
-                            <Form.Label >First Name </Form.Label>
+                        <Form.Group >
+                            <Form.Label>First Name </Form.Label>
                             <br />
-                            <Form.Control
-                                className="FormInputBox"
-                                type="text"
-                                name="FirstName"
+                            <Form.Control className="FormInputBox"
                                 value={CurrentUserState.firstName}
+                                type="text"
+                                name="firstName"
                                 onChange={handleOnChange}
-                                placeholder="First Name"
+                                placeholder={CurrentUserState.firstName}
                             />
                         </Form.Group>
 
@@ -186,7 +191,7 @@ function ProfileForm(props) {
                             <Form.Control
                                 className="FormInputBox"
                                 type="text"
-                                name="LastName"
+                                name="lastName"
                                 onChange={handleOnChange}
                                 value={CurrentUserState.lastName}
                                 placeholder={CurrentUserState.lastName}
@@ -199,7 +204,7 @@ function ProfileForm(props) {
                             <Form.Control
                                 className="FormInputBox"
                                 type="text"
-                                name="UserName"
+                                name="username"
                                 value={CurrentUserState.username}
                                 placeholder={CurrentUserState.username}
                                 readOnly
@@ -211,7 +216,7 @@ function ProfileForm(props) {
                             <Form.Control
                                 className="FormInputBox"
                                 type="email"
-                                name="Email"
+                                name="email"
                                 placeholder={CurrentUserState.email}
                                 value={CurrentUserState.email}
                                 required
@@ -238,7 +243,7 @@ function ProfileForm(props) {
                                 value={CurrentUserState.address}
                                 type="text"
                                 onChange={handleOnChange}
-                                name="Address"
+                                name="address"
                                 placeholder={CurrentUserState.address} />
                         </Form.Group>
 
@@ -248,7 +253,7 @@ function ProfileForm(props) {
                             <Form.Control
                                 className="FormInputBox"
                                 type="date"
-                                name="Birthdate"
+                                name="birthdate"
                                 placeholder={CurrentUserState.birthdate}
                                 onChange={handleOnChange}
                                 value={CurrentUserState.birthdate}
@@ -275,7 +280,7 @@ function ProfileForm(props) {
                             <Form.Select className="FormInputBox"
                                 onChange={handleOnChange}
                                 value={CurrentUserState.Role}
-                                name="Role" required>
+                                name="role" required>
                                 <option>fan</option>
                                 <option>manager </option>
                             </Form.Select>
@@ -290,8 +295,8 @@ function ProfileForm(props) {
                                 className="FormInputBox"
                                 onChange={handleOnChange}
                                 type="password"
-                                name="Password"
-                                value={CurrentUserState.Password}
+                                name="password"
+                                value={CurrentUserState.password}
                                 placeholder="Password"
                             />
                         </Form.Group>
