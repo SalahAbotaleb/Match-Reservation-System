@@ -2,13 +2,13 @@
 import './NavBar.css'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+// import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import brandLogo from "../../../images/logo2.svg";
 import Button from 'react-bootstrap/esm/Button';
 import PropTypes from 'prop-types';
 import axios from "../../../API/axios";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 // ...
 
 NavBar.propTypes = {
@@ -94,23 +94,17 @@ function NavBar(props) {
 
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/matches">Matches</Nav.Link>
-                        <Nav.Link href="/Stadiums">Stadiums</Nav.Link>
-                        <Nav.Link href="/UserProfile">UserProfile</Nav.Link>
+                        {Role !== 'fan' && Role !== 'manager' && Role !== 'admin' && <Nav.Link href="/">Home</Nav.Link>}
+                        {Role === 'fan' && <Nav.Link href="/">Home</Nav.Link>}
+
                         {Role === 'fan' && <Nav.Link href="/Tickets">Tickets</Nav.Link>}
+                        {(Role === 'fan' || Role === 'manager') && <Nav.Link href="/matches">Matches</Nav.Link>}
+                        {(Role === 'fan' || Role === 'manager') && <Nav.Link href="/UserProfile">UserProfile</Nav.Link>}
+
+                        {Role === "manager" && <Nav.Link href="/Stadiums">Stadiums</Nav.Link>}
                         {Role === 'admin' && <Nav.Link href="/CurrentUsers">Users</Nav.Link>}
                         {Role === 'admin' && <Nav.Link href="/Portal">Portal</Nav.Link>}
-                        <NavDropdown title="Services" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">view future matches</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Add accouncment to a match </NavDropdown.Item>
 
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                                <NavDropdown.Item href="/signup">Register</NavDropdown.Item>
-                            </NavDropdown.Item>
-                        </NavDropdown>
                     </Nav>
 
 

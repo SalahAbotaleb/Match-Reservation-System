@@ -4,6 +4,8 @@ import Footer from "../layout/Footer/Footer";
 import NavBar from "../layout/NavBar/NavBar";
 import Fast from "../../images/Feature_Fast.svg";
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "../../API/axios";
 
 const Features = () => {
     return (
@@ -98,9 +100,29 @@ const ImgSection = () => {
 }
 
 const LandingPage = () => {
+    const getRole = async () => {
+        try {
+            const res = await axios.get('/userRole', { withCredentials: true });
+            if (res) {
+                console.log(res);
+                return res.data;
+            }
+        } catch (Err) {
+            console.log(Err);
+        }
+    }
+
+    const [Role, setRole] = useState()
+
+    useEffect(() => {
+        getRole().then((data) => {
+            setRole(data);
+        });
+    }, []);
+
     return (
         <div>
-            <NavBar loggedIn={false} />
+            <NavBar loggedIn={Role === 'fan' || Role === 'manager' || Role === 'admin'} />
             <ImgSection />
             <Features />
             <UserExFeature />
