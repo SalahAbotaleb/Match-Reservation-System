@@ -8,6 +8,7 @@ import brandLogo from "../../../images/logo2.svg";
 import Button from 'react-bootstrap/esm/Button';
 import PropTypes from 'prop-types';
 import axios from "../../../API/axios";
+import {useEffect, useState} from "react";
 // ...
 
 NavBar.propTypes = {
@@ -53,6 +54,25 @@ ButtonsUsed.propTypes = {
 
 
 function NavBar(props) {
+    const getRole = async () => {
+        try {
+            const res = await axios.get('/userRole', { withCredentials: true });
+            if (res) {
+                console.log(res);
+                return res.data;
+            }
+        } catch (Err) {
+            console.log(Err);
+        }
+    }
+
+    const [Role, setRole] = useState()
+
+    useEffect(() => {
+        getRole().then((data) => {
+            setRole(data);
+        });
+    }, []);
 
     // eslint-disable-next-line no-unused-vars
     const { loggedIn } = props;
@@ -74,18 +94,16 @@ function NavBar(props) {
 
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link className="LinkHover" href="/">Home</Nav.Link>
-                        <Nav.Link className="LinkHover" href="/">About us </Nav.Link>
-                        <Nav.Link className="LinkHover" href="/">Contact us</Nav.Link>
+                        <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="/matches">Matches</Nav.Link>
+                        <Nav.Link href="/Stadiums">Stadiums</Nav.Link>
+                        <Nav.Link href="/UserProfile">UserProfile</Nav.Link>
+                        {Role === 'fan' && <Nav.Link href="/Tickets">Tickets</Nav.Link>}
+                        {Role === 'admin' && <Nav.Link href="/CurrentUsers">Users</Nav.Link>}
+                        {Role === 'admin' && <Nav.Link href="/Portal">Portal</Nav.Link>}
                         <NavDropdown title="Services" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">view future matches</NavDropdown.Item>
-                            <NavDropdown.Item href="/matches"> book your seat </NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Add accouncment to a match </NavDropdown.Item>
-                            <NavDropdown.Item href="/UserProfile">profile </NavDropdown.Item>
-                            <NavDropdown.Item href="/Portal">Portal </NavDropdown.Item>
-                            <NavDropdown.Item href="/CurrentUsers">Users </NavDropdown.Item>
-                            <NavDropdown.Item href="/Stadiums"> Stadiums </NavDropdown.Item>
-                            <NavDropdown.Item href="/Tickets"> My Tickets </NavDropdown.Item>
 
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">
