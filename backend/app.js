@@ -11,7 +11,7 @@ const authorizeUser = require("./utils/authorizeUser");
 /**
  * Mongoose connection
 */
-mongoose.connect('mongodb://127.0.0.1:27017/TicketReservation');
+mongoose.connect('mongodb+srv://mtheggi:zbnx1g8AbCLv11yn@ticketreservation.uiebvjo.mongodb.net/?retryWrites=true&w=majority');
 const db = mongoose.connection;
 
 db.once("connected", () => {
