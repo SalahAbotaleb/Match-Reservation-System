@@ -5,9 +5,15 @@ import Team from "./Team";
 import Typography from "@mui/material/Typography";
 import StadiumIcon from '@mui/icons-material/Stadium';
 import SportsIcon from '@mui/icons-material/Sports';
-import {Link} from "react-router-dom";
-
-export default function Matchcard({match, reserve}) {
+import FlagIcon from '@mui/icons-material/Flag';
+import {useNavigate} from "react-router-dom";
+export default function Matchcard({match, reserve, edit}) {
+    const navigate = useNavigate();
+    const handleViewMatch = () => {
+        navigate('/login');
+        reserve(match);
+        edit(match);
+    }
     const reservematch = () => {
         reserve(match);
     }
@@ -57,6 +63,20 @@ export default function Matchcard({match, reserve}) {
                             <SportsIcon/>
                             <Typography variant='p' fontFamily='quicksand' color={'grey'}>
                                 {match.referee}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item container spacing={1} justifyContent='space-between'>
+                        <Grid item sx={{display: 'flex', alignItems: 'center'}}>
+                            <FlagIcon/>
+                            <Typography variant='p' fontFamily='quicksand' color={'grey'}>
+                                {match.linesman[0]}
+                            </Typography>
+                        </Grid>
+                        <Grid item sx={{display: 'flex', alignItems: 'center'}}>
+                            <FlagIcon/>
+                            <Typography variant='p' fontFamily='quicksand' color={'grey'}>
+                                {match.linesman[1]}
                             </Typography>
                         </Grid>
                     </Grid>
