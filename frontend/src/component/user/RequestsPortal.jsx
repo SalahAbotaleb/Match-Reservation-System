@@ -34,12 +34,25 @@ const RequestsPortal = () => {
         firstName: 'giza',
         lastName: 'adadd',
         role: 'Manager',
+      },
+      {
+        username: 'Cairo International',
+        firstName: 'giza',
+        lastName: 'adadd',
+        role: 'Manager',
+      },
+      {
+        username: 'Cairo International',
+        firstName: 'giza',
+        lastName: 'adadd',
+        role: 'Manager',
       }
     ]
 
   return (
     <div className='PageRequests'>
-      <Container style={{border: 0, marginTop: 20}}>
+      <NavBar></NavBar>
+      <Container style={{ border: 0, marginTop: 20, minHeight: '100%' }}>
         <Row>
           <Col>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -48,15 +61,16 @@ const RequestsPortal = () => {
           </Col>
         </Row>
         <br />
-        {requests.length > 0 ? (
-          requests.map((request) => (
+        {Requests.length > 0 ? (
+          Requests.map((request) => (
             <Request key={request.id} request={request} />
           ))
         ) : (
           "You Are Free Today. Let's Have A Coffee"
         )}
+        <Footer></Footer>
+
       </Container>
-      <Footer></Footer>
     </div>
   )
 }

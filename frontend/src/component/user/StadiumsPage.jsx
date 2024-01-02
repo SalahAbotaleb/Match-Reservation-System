@@ -97,10 +97,10 @@ const Stadiumspage = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <Button onClick={() => setaddbutton(!showadd)} style={{ backgroundColor: showadd ? 'red' : 'blue', marginLeft: 1150 }}> {showadd ? 'Close' : 'Add Stadium'}</Button>
+                        <Button onClick={() => setaddbutton(!showadd)} style={{ backgroundColor: showadd ? 'red' : 'blue', marginLeft: 1100, width: 150 }}> {showadd ? 'Close' : 'Add Stadium'}</Button>
                     </Col>
                 </Row>
-                {showadd && <Container className="overflow-hidden" style={{ border: 0, marginTop: 20, width: 1200, marginBottom: 50}}>
+                {showadd && <Container className="overflow-hidden" style={{ border: 0, marginTop: 20, width: 1200, marginBottom: 50, marginLeft: 100}}>
                     <Row>
 
                         <Form onSubmit={handlesubmit}>

@@ -8,6 +8,8 @@ import Userprofile from "./component/user/Userprofile";
 import Matches from "./component/Matches/Matches.jsx";
 import Match from "./component/Matches/match.jsx";
 import AddMatch from "./component/Matches/AddMatch.jsx";
+import RequestsPortal from "./component/user/RequestsPortal.jsx";
+import StadiumsPage from "./component/user/StadiumsPage.jsx";
 
 function App() {
     return (
@@ -22,6 +24,7 @@ function App() {
                     <Route path="/matches" element={<Matches />} />
                     <Route path={'/match/:id'} element={<Match/>}/>
                     <Route path="/AddMatch" element={<AddMatch/>}/>
+                    <Route path="/Portal" element={<RequestsPortal/>}/>
                 </Routes>
             </BrowserRouter>
 

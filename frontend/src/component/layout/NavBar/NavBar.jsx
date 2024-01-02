@@ -80,8 +80,9 @@ function NavBar(props) {
                         <NavDropdown title="Services" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">view future matches</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2"> book your seat </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Add accouncment to a match </NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Add announcement to a match </NavDropdown.Item>
                             <NavDropdown.Item href="/UserProfile">profile </NavDropdown.Item>
+                            <NavDropdown.Item href="/Portal">Portal </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">
                                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>

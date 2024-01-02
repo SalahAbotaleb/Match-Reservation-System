@@ -4,18 +4,19 @@ import axios from "../../API/axios";
 
 const Request = ({ request }) => {
 
-  const changestatus = async (e) => {
+  const changestatus = async (e, state) => {
     e.preventDefault();
     const dataToSend = {
-        name: CurrentUserState.stadiumname,
+        action: state,
     }
     try {
         const response = await axios.request({
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/requests/users/:id',
+            url: `http://localhost:3000/requests/users/${request.id}`,
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                withCredentials: true
             },
             data: JSON.stringify(dataToSend),
         });
@@ -35,8 +36,8 @@ const Request = ({ request }) => {
           <Col><p>Requested Role : {request.role}</p></Col>
         </Row>
         <Row style={{ marginLeft: 300 }}>
-          <Col> <Button onClick={() => changestatus()} style={{ width: 100, backgroundColor: 'green', borderColor: 'green' }}> Accept </Button> </Col>
-          <Col> <Button onClick={() => changestatus()} style={{ width: 100, backgroundColor: 'red', borderColor: 'red' }}> Reject </Button> </Col>
+          <Col> <Button onClick={() => changestatus(accept)} style={{ width: 100, backgroundColor: 'green', borderColor: 'green' }}> Accept </Button> </Col>
+          <Col> <Button onClick={() => changestatus(reject)} style={{ width: 100, backgroundColor: 'red', borderColor: 'red' }}> Reject </Button> </Col>
         </Row>
     </Container>
   )
