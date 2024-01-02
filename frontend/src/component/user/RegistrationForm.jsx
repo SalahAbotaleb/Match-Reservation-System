@@ -16,8 +16,8 @@ const intialFormState = {
     City: "",
     Address: "",
     Birthdate: "",
-    gender: "Male",
-    Role: "Fan",
+    gender: "male",
+    Role: "fan",
     Password: "",
     ConfirmedPassword: "",
 };
@@ -217,8 +217,8 @@ function RegistrationFrom() {
                             name="gender"
                             value={CurrentUserState.gender}
                             required >
-                            <option>Male</option>
-                            <option>Female </option>
+                            <option>male</option>
+                            <option>female </option>
                         </Form.Select>
 
                     </Form.Group>

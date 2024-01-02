@@ -91,9 +91,15 @@ app.post('/login', passport.authenticate("local"), (req, res) => {
     /**
      * For each request we will store the user id in the session
      */
+    if(req.user.status === "pending"){
+
+        return res.status(401).send("Unauthorized");
+    }
+    
     req.session.user_id = req.user._id;
     req.session.user_role = req.user.role;
     req.session.status = req.user.status;
+
 
     res.status(200).send({ ...userDataObject, success: true, id: req.user._id });
 });
