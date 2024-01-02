@@ -227,6 +227,7 @@ app.delete('/users/:id/tickets/:ticketId', authorizeUser(["fan"]), asyncHandler(
     if (threeDaysBeforeMatch <= todayDate) {
         res.status(400).send("You can cancel your ticket only 3 days before the match");
     }
+    await ticketToRemove.remove();
     await ticketModel.findOneAndDelete({ _id: req.params.ticketId });
     res.status(200).send("Ticket cancelled successfully");
 
