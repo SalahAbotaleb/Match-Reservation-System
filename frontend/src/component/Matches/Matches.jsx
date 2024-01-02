@@ -12,12 +12,12 @@ import NavBar from "../layout/NavBar/NavBar.jsx";
 import Footer from "../layout/Footer/Footer.jsx";
 
 async function getmatches() {
-    const response = await fetch('http://localhost:3000/matches');
+    const response = await fetch('https://match-reservation-system.vercel.app/matches');
     return response.json();
 }
 
 async function getRole() {
-    const response = await fetch('http://localhost:3000/userRole', {
+    const response = await fetch('https://match-reservation-system.vercel.app/userRole', {
         credentials: 'include'
     });
     return response.text();
