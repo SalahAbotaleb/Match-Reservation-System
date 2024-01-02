@@ -26,20 +26,19 @@ const Request = ({ request }) => {
 }
 
   return (
-    <div>
-        <Row>
+    <Container className='Ticket container-sm' style={{ border: 0, height: 200, paddingTop: 10 }}>
+        <Row style={{ marginLeft: 10, marginTop: 10 }}>
           <p>UserName : {request.username}</p>
         </Row>
-        <Row>
+        <Row style={{ marginLeft: 10, marginTop: 10 }}>
           <Col><p>Name : {request.firstName} {request.lastName}</p></Col>
           <Col><p>Requested Role : {request.role}</p></Col>
         </Row>
         <Row style={{ marginLeft: 300 }}>
-          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'green' }}> Accept </Button> </Col>
-          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'red' }}> Reject </Button> </Col>
+          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'green', borderColor: 'green' }}> Accept </Button> </Col>
+          <Col> <Button onClick={() => handlesubmit()} style={{ width: 100, backgroundColor: 'red', borderColor: 'red' }}> Reject </Button> </Col>
         </Row>
-    </div>
+    </Container>
   )
 }
-
 export default Request

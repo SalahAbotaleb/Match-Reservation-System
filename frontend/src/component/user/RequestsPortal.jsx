@@ -1,8 +1,10 @@
-import React from 'react'
 import { Container, Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Request from "./Request"
+import Footer from '../layout/Footer/Footer'
+import NavBar from '../layout/NavBar/NavBar'
 import { useState, useEffect } from "react";
+import "./RequestsPortal.css";
 
 async function getrequests() {
   const response = await fetch('http://localhost:3000/requests');
@@ -36,8 +38,8 @@ const RequestsPortal = () => {
     ]
 
   return (
-    <div>
-      <Container>
+    <div className='PageRequests'>
+      <Container style={{border: 0, marginTop: 20}}>
         <Row>
           <Col>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -54,6 +56,7 @@ const RequestsPortal = () => {
           "You Are Free Today. Let's Have A Coffee"
         )}
       </Container>
+      <Footer></Footer>
     </div>
   )
 }

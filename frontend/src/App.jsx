@@ -19,7 +19,7 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                 </Routes>
             </BrowserRouter> */}
-            <TicketsPage></TicketsPage>
+            <RequestsPortal></RequestsPortal>
         </div>  
     );
 }

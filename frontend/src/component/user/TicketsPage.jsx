@@ -29,7 +29,8 @@ const TicketsPage = () => {
 
     return (
         <div className='PageTickets'>
-            <Container style={{border: 0}}>
+            <NavBar></NavBar>
+            <Container style={{border: 0, marginTop: 20}}>
                 <Row>
                     <Col>
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -46,8 +47,8 @@ const TicketsPage = () => {
                     "Book Your first ticket"
                 )}
             </Container >
+            <Footer></Footer>
         </div>
-
     )
 }
 
