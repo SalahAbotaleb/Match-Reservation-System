@@ -1,0 +1,23 @@
+.PageTickets {
+    display: grid;
+    font-family: 'Quicksand';
+    font-weight: bold;
+    grid-template-rows: 1fr;
+    background-color: #EEEEEE;
+  }
+  
+  .Ticket {
+    background-color: rgb(194, 218, 234);
+    margin: 20px;
+    border-radius: 20px;
+  }
+  
+  .Ticket:hover {
+    background-color: #bab6b9;
+  }
+  
+  .Cancel:hover{
+    transform: scale(1.04);
+  }
+  
+  
