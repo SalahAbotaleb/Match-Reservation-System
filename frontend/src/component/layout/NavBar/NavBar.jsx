@@ -83,6 +83,7 @@ function NavBar(props) {
                             <NavDropdown.Item href="#action/3.3">Add announcement to a match </NavDropdown.Item>
                             <NavDropdown.Item href="/UserProfile">profile </NavDropdown.Item>
                             <NavDropdown.Item href="/Portal">Portal </NavDropdown.Item>
+                            <NavDropdown.Item href="/CurrentUsers">Users </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/3.4">
                                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>

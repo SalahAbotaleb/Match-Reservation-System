@@ -6,10 +6,14 @@ import NavBar from "../layout/NavBar/NavBar";
 import Footer from "../layout/Footer/Footer";
 import User from "./User"
 
-async function getusers() {
-    const response = await fetch('http://localhost:3000/users');
-    return response.json();
-}
+const getusers = async () => {
+    try {
+      const response = await axios.get('/users', { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
 const AllUsers = () => {
 
@@ -21,37 +25,9 @@ const AllUsers = () => {
         });
     }, []);
 
-    const usersdata =
-    [
-      {
-        username: 'Cairo International',
-        firstName: 'giza',
-        lastName: 'adadd',
-        role: 'Manager',
-      },
-      {
-        username: 'Cairo International',
-        firstName: 'giza',
-        lastName: 'adadd',
-        role: 'Manager',
-      },
-      {
-        username: 'Cairo International',
-        firstName: 'giza',
-        lastName: 'adadd',
-        role: 'Manager',
-      },
-      {
-        username: 'Cairo International',
-        firstName: 'giza',
-        lastName: 'adadd',
-        role: 'Manager',
-      }
-    ]
-
     return (
         <div className="alluserspage">
-            <NavBar></NavBar>
+            <NavBar loggedIn={true}></NavBar>
             <Container className="AllUserspage">
                 <Row>
                     <Col>

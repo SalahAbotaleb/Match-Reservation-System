@@ -26,6 +26,8 @@ function App() {
                     <Route path={'/match/:id'} element={<Match/>}/>
                     <Route path="/AddMatch" element={<AddMatch/>}/>
                     <Route path="/Portal" element={<RequestsPortal/>}/>
+                    <Route path="/CurrentUsers" element={<AllUsers/>}/>
+
                 </Routes>
             </BrowserRouter>
 
