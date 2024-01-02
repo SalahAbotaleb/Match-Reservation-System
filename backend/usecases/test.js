@@ -125,7 +125,7 @@ async function viewMatches() {
         url: 'http://localhost:3000/matches', headers: {}
     };
 
-    axios.request(config)
+    await axios.request(config)
         .then((response) => {
             for (let i = 0; i < response.data.length; i++) {
                 console.log(response.data[i]);
@@ -212,7 +212,6 @@ async function viewUserTickets(userId, cookie) {
 
     await axios.request(config)
         .then((response) => {
-            console.log(JSON.stringify(response.data));
             for (let i = 0; i < response.data.length; i++) {
                 console.log(response.data[i]);
             }
@@ -224,14 +223,56 @@ async function viewUserTickets(userId, cookie) {
 }
 
 
+async function viewReservationsAfter(matchId, date) {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `http://localhost:3000/matches/${matchId}/reservationsAfter?date=${date}`,
+        headers: {
+        }
+    };
+
+    await axios.request(config)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+}
+
+async function cancelTickets(userId, ticketId, cookie) {
+    let config = {
+        method: 'delete',
+        maxBodyLength: Infinity,
+        url: `http://localhost:3000/users/${userId}/tickets/${ticketId}`,
+        headers: {
+            'Cookie': cookie
+        }
+    };
+
+    await axios.request(config)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+}
+
 async function scenario() {
     //let cookie = await signIn('admin', 'admin');
     //await displayRequests(cookie);
     //await acceptRequest("658de39bddb7065d122e6c7f", cookie);
     let cookie = await signIn('moaaz2', 'moaaz');
-    //await viewMatches();
-    await reserveSeats(cookie, "656a2ff0979ed0c0bd752527", [{ "row": 2, "column": 7 }, { "row": 2, "column": 8 }]);
-    await viewUserTickets("658de39bddb7065d122e6c7f", cookie);
+    await cancelTickets("658de39bddb7065d122e6c7f", "65931de68a02899076dddf52", cookie)
+    await viewMatches();
+    console.log("-----------------------------------");
+    //await reserveSeats(cookie, "656a2ff0979ed0c0bd752527", [{ "row": 15, "column": 1 }]);
+    //await viewUserTickets("658de39bddb7065d122e6c7f", cookie);
+    viewReservationsAfter("656a2ff0979ed0c0bd752527", "2021-05-01");
 }
 
 scenario();
