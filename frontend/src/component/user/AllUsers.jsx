@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Button from 'react-bootstrap/Button';
+import "./AllUsers.css";
+// import Button from 'react-bootstrap/Button';
+import User from './User';
 import axios from "../../API/axios";
 import NavBar from "../layout/NavBar/NavBar";
 import Footer from "../layout/Footer/Footer";
-import User from "./User"
 
 const getusers = async () => {
     try {
-      const response = await axios.get('/users', { withCredentials: true });
-      return response.data;
+        const response = await axios.get('/users', { withCredentials: true });
+        return response.data;
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     }
-  };
+};
 
 const AllUsers = () => {
 
@@ -28,6 +29,7 @@ const AllUsers = () => {
     return (
         <div className="alluserspage">
             <NavBar loggedIn={true}></NavBar>
+
             <Container className="AllUserspage">
                 <Row>
                     <Col>
@@ -39,7 +41,7 @@ const AllUsers = () => {
 
                 {Users.length > 0 ? (
                     Users.map((user) => (
-                        <User key={user.id} user={user} />
+                        <User key={user._id} user={user} />
                     ))
                 ) : (
                     "No user are found"
@@ -47,7 +49,10 @@ const AllUsers = () => {
 
 
             </Container>
-            <Footer></Footer>
+
+            <div className="FooterPos">
+                <Footer />
+            </div>
         </div>
 
     )

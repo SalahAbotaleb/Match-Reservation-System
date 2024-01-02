@@ -1,42 +1,22 @@
-import React from 'react'
+// import React from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import axios from "../../API/axios";
 
-const User = ({ user }) => {
+const User = (props) => {
 
-  //   const deleteuser = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //         const response = await axios.request({
-  //             method: 'delete',
-  //             maxBodyLength: Infinity,
-  //             url: `http://localhost:3000/users/${user.id}`,
-  //             headers: {
-  //                 'Content-Type': 'application/x-www-form-urlencoded',
-  //                 withCredentials: true
-  //             },
-  //             data: JSON.stringify(),
-  //         });
-  //         console.log(response.data);
-  //     } catch (err) {
-  //         console.log(err.message);
-  //     }
-  // }
 
+  const user = props.user;
   const deleteuser = async (e) => {
     e.preventDefault();
-    const dataToSend = {
-    }
-
     try {
+      console.log("ids send to allUsers.jsx");
       console.log(user._id);
       const response = await axios.delete(`/users/${user._id}`,
-        JSON.stringify(dataToSend),
         { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
       );
-      window.location.reload(); // refresh the page
       console.log("Teraaaa respond");
       console.log(response.data);
+      window.location.reload(); // refresh the page
     } catch (err) {
       console.log(err.message);
     }
@@ -57,7 +37,7 @@ const User = ({ user }) => {
       </Row>
 
       <Row style={{ marginLeft: 500 }}>
-        <Col> <Button disabled = {user.role == 'admin'} onClick={(e) => deleteuser(e)} style={{ width: 200, backgroundColor: 'red', borderColor: 'red' }}> Delete User </Button> </Col>
+        <Col> <Button disabled={user.role == 'admin'} onClick={(e) => deleteuser(e)} style={{ width: 200, backgroundColor: 'red', borderColor: 'red' }}> Delete User </Button> </Col>
       </Row>
     </Container>
   )

@@ -1,25 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+
 
 .alluserspage {
-  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  min-height: 100vh;
+  width: 100%;
+  
   overflow: auto;
-  min-height: 300px;
   border: 1px solid steelblue;
-  padding: 30px;
   border-radius: 5px;
   font-family: 'Quicksand';
   font-weight: bold;
-  grid-template-columns: 5fr 2fr;
-  grid-template-rows: 1fr;
   background-color: #889fab;
   border: 0;
+  
 }
+
 
 .AllUserspage {
   display: grid;
