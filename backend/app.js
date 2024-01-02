@@ -86,6 +86,11 @@ app.post('/register', asyncHandler(async (req, res) => {
     }
 }));
 
+app.get('/teams', asyncHandler(async (req, res) => {
+    const teams = await teamModel.find({});
+    res.send(teams);
+}));
+
 app.post('/login', passport.authenticate("local"), (req, res) => {
     const userDataObject = { username: req.user.username, role: req.user.role };
     /**
@@ -118,7 +123,7 @@ app.get('/matches/:id', asyncHandler(async (req, res) => {
     res.send(match);
 }));
 
-app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
+app.post('/matches', authorizeUser(["manager"]), authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const match = new matchModel(req.body);
     await match.save();
     res.status(201).end();
