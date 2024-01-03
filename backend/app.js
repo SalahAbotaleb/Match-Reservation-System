@@ -123,10 +123,12 @@ app.get('/matches/:id', asyncHandler(async (req, res) => {
     res.send(match);
 }));
 
-app.post('/matches', authorizeUser(["manager"]), authorizeUser(["manager"]), asyncHandler(async (req, res) => {
+app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const match = new matchModel(req.body);
     await match.save();
-    res.status(201).end();
+    const todayDate = new Date();
+    const matches = await matchModel.find({ date: { $gt: todayDate } }).populate("homeTeam").populate("awayTeam").populate("stadium");
+    res.status(201).send(matches);
 }));
 
 app.post('/matches/:id', authorizeUser(["manager"]), asyncHandler(async (req, res) => {

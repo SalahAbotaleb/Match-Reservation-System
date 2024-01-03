@@ -9,7 +9,7 @@ export default function PayReservation({setMatches, matchId, hidden, reservedSea
     const [cvv, setCvv] = useState('');
 
     const reserveMatch = async () => {
-        const response = await fetch('https://match-reservation-system.vercel.app/matches/' + matchId + '/reservations', {
+        const response = await fetch('http://localhost:3000/matches/' + matchId + '/reservations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -27,25 +27,31 @@ export default function PayReservation({setMatches, matchId, hidden, reservedSea
         return response.status;
     }
     const handleReserve = () => {
-        if (creditcard && cvv) {
-            reserveMatch().then((data) => {
-                if (data === 201) {
-                    setMatches((prevMatches) => {
-                        return prevMatches.map((match) => {
-                            if (match._id === matchId) {
-                                match.reservationMap = [...match.reservationMap, ...reservedSeats];
-                            }
-                            return match;
-                        });
-                    });
-                    alert('Reservation successful!')
-
-                    handleNext();
-                } else {
-                    alert('Reservation failed!')
-                }
-            });
+        if (!creditcard || creditcard.length !== 16 || !cvv || cvv.length !== 3) {
+            return;
         }
+        if (reservedSeats.length === 0) {
+            alert('Please select at least one seat!');
+            return;
+        }
+        reserveMatch().then((data) => {
+            if (data === 201) {
+                setMatches((prevMatches) => {
+                    return prevMatches.map((match) => {
+                        if (match._id === matchId) {
+                            match.reservationMap = [...match.reservationMap, ...reservedSeats];
+                        }
+                        return match;
+                    });
+                });
+                alert('Reservation successful!')
+
+                handleNext();
+            } else {
+                alert('Reservation failed!')
+            }
+        });
+
     }
 
     return (<>
@@ -60,15 +66,23 @@ export default function PayReservation({setMatches, matchId, hidden, reservedSea
             </Grid>
             <TextField value={creditcard} onChange={
                 (event) => {
+                    if (isNaN(event.target.value)) {
+                        return;
+                    }
                     setCreditcard(event.target.value);
                 }
-            } id="outlined-basic" label="Credit Card" variant="outlined" required={true} error={!creditcard}
+            } id="outlined-basic" label="Credit Card" variant="outlined" required={true}
+                       error={!creditcard || creditcard.length !== 16}
                        margin={'normal'}/>
             <TextField value={cvv} onChange={
                 (event) => {
+                    if (isNaN(event.target.value)) {
+                        return;
+                    }
                     setCvv(event.target.value);
                 }
-            } id="outlined-basic" label="CVV" variant="outlined" error={!cvv} required={true} margin={'normal'}/>
+            } id="outlined-basic" label="CVV" variant="outlined" error={!cvv || cvv.length !== 3} required={true}
+                       margin={'normal'}/>
         </Grid>
 
         {!hidden &&

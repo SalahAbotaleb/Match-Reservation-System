@@ -12,12 +12,12 @@ import NavBar from "../layout/NavBar/NavBar.jsx";
 import Footer from "../layout/Footer/Footer.jsx";
 
 async function getmatches() {
-    const response = await fetch('https://match-reservation-system.vercel.app/matches');
+    const response = await fetch('http://localhost:3000/matches');
     return response.json();
 }
 
 async function getRole() {
-    const response = await fetch('https://match-reservation-system.vercel.app/userRole', {
+    const response = await fetch('http://localhost:3000/userRole', {
         credentials: 'include'
     });
     return response.text();
@@ -45,7 +45,7 @@ export default function Matches() {
                 <NavBar loggedIn={role !== 'Unauthorized'}/>
             </Grid>
             <Grid item m={2}>
-                <Box minwidth={1} height={'100%'} sx={{p: 2, bgcolor: '#233038'}}>
+                <Box minwidth={1} minHeight={'60vh'} sx={{p: 2, bgcolor: '#233038'}}>
                     <Typography color='#eeeeee' variant='h3' fontFamily={'quicksand'} marginBottom={0}>
                         Upcoming Matches:
                     </Typography>
@@ -72,7 +72,7 @@ export default function Matches() {
                         <EditMatch match={editmatch} close={setEditmatch} setMatches={setMatches}/>
                     </Modal>
                     <Modal open={addmatch}>
-                        <AddMatch close={setAddmatch}/>
+                        <AddMatch setMatches={setMatches} close={setAddmatch}/>
                     </Modal>
                 </Box>
             </Grid>

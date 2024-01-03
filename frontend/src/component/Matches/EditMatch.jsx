@@ -16,12 +16,12 @@ import Stepper from "@mui/material/Stepper";
 import SeatGrid from "./SeatGrid.jsx";
 
 async function getTeams() {
-    const response = await fetch('https://match-reservation-system.vercel.app/teams');
+    const response = await fetch('http://localhost:3000/teams');
     return response.json();
 }
 
 async function getStadiums() {
-    const response = await fetch('https://match-reservation-system.vercel.app/stadiums');
+    const response = await fetch('http://localhost:3000/stadiums');
     return response.json();
 }
 
@@ -101,7 +101,7 @@ export default function EditMatch({close, match, setMatches}) {
                     </Grid>
                     <Grid container item spacing={1} justifyContent={'center'}>
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
-                            <FormControl sx={{width: '50%'}}>
+                            <FormControl required sx={{width: '50%'}}>
                                 <InputLabel id="Hometeam">HomeTeam</InputLabel>
                                 <Select
                                     labelId="Hometeam"
@@ -116,7 +116,7 @@ export default function EditMatch({close, match, setMatches}) {
                             </FormControl>
                         </Grid>
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
-                            <FormControl sx={{width: '50%'}}>
+                            <FormControl required sx={{width: '50%'}}>
                                 <InputLabel id="Awayteam">AwayTeam</InputLabel>
                                 <Select
                                     labelId="Awayteam"
@@ -132,7 +132,7 @@ export default function EditMatch({close, match, setMatches}) {
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
-                            <FormControl sx={{width: '50%'}}>
+                            <FormControl required sx={{width: '50%'}}>
                                 <InputLabel id="Stadiums">Stadiums</InputLabel>
                                 <Select
                                     labelId="Stadiums"
@@ -149,6 +149,8 @@ export default function EditMatch({close, match, setMatches}) {
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={date < new Date().toISOString().split('.')[0]}
+                                required
                                 label="Match Date"
                                 type="datetime-local"
                                 value={date}
@@ -158,37 +160,54 @@ export default function EditMatch({close, match, setMatches}) {
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={ticketPrice === ''}
+                                required
                                 label="Ticket Price"
                                 type="number"
                                 value={ticketPrice}
                                 onChange={(event) => {
+                                    if (event.target.value < 0) return;
                                     setTicketPrice(event.target.value)
-                                }
-                                }
+                                }}
                             />
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={referee === ''}
+                                required
                                 label="referee"
                                 value={referee}
-                                onChange={(event) => setReferee(event.target.value)}
+                                onChange={(event) => {
+                                    if (!/^[a-zA-Z\s]+$/.test(event.target.value) && event.target.value !== '') return;
+                                    setReferee(event.target.value);
+                                }}
                             />
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={linesman1 === ''}
+                                required
                                 label={"Linesman 1"}
                                 value={linesman1}
-                                onChange={(event) => setLinesman1(event.target.value)}
+                                onChange={(event) => {
+                                    if (!/^[a-zA-Z\s]+$/.test(event.target.value) && event.target.value !== '') return;
+                                    setLinesman1(event.target.value)
+                                }}
                             />
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={linesman2 === ''}
+                                required
                                 label={"Linesman 2"}
                                 value={linesman2}
-                                onChange={(event) => setLinesman2(event.target.value)}
+                                onChange={(event) =>{
+                                    if (!/^[a-zA-Z\s]+$/.test(event.target.value) && event.target.value !== '') return;
+                                    setLinesman2(event.target.value)
+                                }}
                             />
                         </Grid>
 
@@ -208,7 +227,7 @@ export default function EditMatch({close, match, setMatches}) {
                             </Button>
                         </Grid>
                         <Grid hidden={activeStep === 1} item>
-                            <Button variant={'contained'} onClick={handleNext}>Edit Match</Button>
+                            <Button variant={'contained'} onClick={handleNext}>Next</Button>
                         </Grid>
                         <Grid hidden={activeStep === 0} item>
                             <Button variant={'contained'} onClick={() => {
@@ -223,6 +242,14 @@ export default function EditMatch({close, match, setMatches}) {
                                     console.log(date);
                                     console.log(new Date().toISOString().split('.')[0]);
                                     alert("Date is in the past");
+                                    return;
+                                }
+                                if (referee === '' || linesman1 === '' || linesman2 === '' || ticketPrice === '') {
+                                    alert("fill all required fields");
+                                    return;
+                                }
+                                if (homeTeam === awayTeam) {
+                                    alert("Home team and away team can't be the same");
                                     return;
                                 }
                                 setMatches((prev) => {
@@ -242,7 +269,7 @@ export default function EditMatch({close, match, setMatches}) {
                                         return prevmatch;
                                     });
                                 });
-                                fetch('https://match-reservation-system.vercel.app/matches/' + match._id, {
+                                fetch('http://localhost:3000/matches/' + match._id, {
                                     method: 'POST',
                                     credentials: 'include',
                                     headers: {
