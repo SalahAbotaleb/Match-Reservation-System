@@ -12,12 +12,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 async function getTeams() {
-    const response = await fetch('http://localhost:3000/teams');
+    const response = await fetch('https://match-reservation-system.vercel.app/teams');
     return response.json();
 }
 
 async function getStadiums() {
-    const response = await fetch('http://localhost:3000/stadiums');
+    const response = await fetch('https://match-reservation-system.vercel.app/stadiums');
     return response.json();
 }
 
@@ -162,7 +162,7 @@ export default function AddMatch({close}) {
                     </Grid>
                     <Grid item>
                         <Button variant={'contained'} onClick={() => {
-                            fetch('http://localhost:3000/matches', {
+                            fetch('https://match-reservation-system.vercel.app/matches', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ export default function PayReservation({setMatches, matchId, hidden, reservedSea
     const [cvv, setCvv] = useState('');
 
     const reserveMatch = async () => {
-        const response = await fetch('http://localhost:3000/matches/' + matchId + '/reservations', {
+        const response = await fetch('https://match-reservation-system.vercel.app/matches/' + matchId + '/reservations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -16,12 +16,12 @@ import Stepper from "@mui/material/Stepper";
 import SeatGrid from "./SeatGrid.jsx";
 
 async function getTeams() {
-    const response = await fetch('http://localhost:3000/teams');
+    const response = await fetch('https://match-reservation-system.vercel.app/teams');
     return response.json();
 }
 
 async function getStadiums() {
-    const response = await fetch('http://localhost:3000/stadiums');
+    const response = await fetch('https://match-reservation-system.vercel.app/stadiums');
     return response.json();
 }
 
@@ -242,7 +242,7 @@ export default function EditMatch({close, match, setMatches}) {
                                         return prevmatch;
                                     });
                                 });
-                                fetch('http://localhost:3000/matches/' + match._id, {
+                                fetch('https://match-reservation-system.vercel.app/matches/' + match._id, {
                                     method: 'POST',
                                     credentials: 'include',
                                     headers: {
