@@ -3,7 +3,7 @@
 
 ## Table of Contents
 - [Introduction ](#Introduction)
-- [Usage] (#Usage)
+- [Usage](#Usage)
 - [Main-Pages](#Main-Pages)
 - [Reference](#Reference)
 
