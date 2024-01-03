@@ -7,7 +7,7 @@ const teamModel = require('../models/teamModel');
 
 const mongoose = require('mongoose');
 const userModel = require('../models/userModel');
-mongoose.connect('mongodb+srv://mtheggi:zbnx1g8AbCLv11yn@ticketreservation.uiebvjo.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect('//');
 const db = mongoose.connection.useDb("TicketReservation");
 db.once("connected", () => {
     console.log("connected to db");

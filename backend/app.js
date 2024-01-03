@@ -11,7 +11,9 @@ const authorizeUser = require("./utils/authorizeUser");
 /**
  * Mongoose connection
 */
-mongoose.connect('mongodb+srv://mtheggi:zbnx1g8AbCLv11yn@ticketreservation.uiebvjo.mongodb.net/?retryWrites=true&w=majority');
+require('dotenv').config();
+
+mongoose.connect(process.env.DB_CONNECTION_STRING);
 const db = mongoose.connection;
 
 db.once("connected", () => {
