@@ -54,7 +54,7 @@ const Login = () => {
                 if (data.role === 'admin') {
                     navigate(`/CurrentUsers`);
                 } else if (data.role === 'manager') {
-                    navigate(`/Portal`);
+                    navigate(`/matches`);
                 } else {
                     navigate(`/matches`);
                 }
