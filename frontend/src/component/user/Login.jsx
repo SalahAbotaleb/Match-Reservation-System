@@ -51,7 +51,14 @@ const Login = () => {
             if (data.success) {
                 setUserState(prevState => ({ ...prevState, success: true }))
                 // console.log(data.id);
-                navigate(`/Userprofile`); // suppose to be user home page or user profile page
+                if (data.role === 'admin') {
+                    navigate(`/CurrentUsers`);
+                } else if (data.role === 'manager') {
+                    navigate(`/matches`);
+                } else {
+                    navigate(`/matches`);
+                }
+
             }
         } catch (Err) {
             setUserState(prevState => ({ ...prevState, success: false }))

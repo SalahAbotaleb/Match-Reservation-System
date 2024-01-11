@@ -98,7 +98,7 @@ function NavBar(props) {
                         {Role === 'fan' && <Nav.Link href="/">Home</Nav.Link>}
 
                         {Role === 'fan' && <Nav.Link href="/Tickets">Tickets</Nav.Link>}
-                        {(Role === 'fan' || Role === 'manager') && <Nav.Link href="/matches">Matches</Nav.Link>}
+                        <Nav.Link href="/matches">Matches</Nav.Link>
                         {(Role === 'fan' || Role === 'manager') && <Nav.Link href="/UserProfile">UserProfile</Nav.Link>}
 
                         {Role === "manager" && <Nav.Link href="/Stadiums">Stadiums</Nav.Link>}

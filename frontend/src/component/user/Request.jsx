@@ -27,7 +27,7 @@ const Request = ({ request }) => {
   }
 
   return (
-    <Container className='Ticket container-sm' style={{ border: 0, height: 200, paddingTop: 10 }}>
+    <Container className='Ticket container-sm' style={{ border: 0, height: 180, paddingTop: 10 }}>
       <Row style={{ marginLeft: 10, marginTop: 10 }}>
         <p>UserName : {request.username}</p>
       </Row>

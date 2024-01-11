@@ -11,7 +11,9 @@ const authorizeUser = require("./utils/authorizeUser");
 /**
  * Mongoose connection
 */
-mongoose.connect('mongodb://127.0.0.1:27017/TicketReservation');
+require('dotenv').config();
+
+mongoose.connect(process.env.DB_CONNECTION_STRING);
 const db = mongoose.connection;
 
 db.once("connected", () => {
@@ -86,6 +88,11 @@ app.post('/register', asyncHandler(async (req, res) => {
     }
 }));
 
+app.get('/teams', asyncHandler(async (req, res) => {
+    const teams = await teamModel.find({});
+    res.send(teams);
+}));
+
 app.post('/login', passport.authenticate("local"), (req, res) => {
     const userDataObject = { username: req.user.username, role: req.user.role };
     /**
@@ -121,7 +128,9 @@ app.get('/matches/:id', asyncHandler(async (req, res) => {
 app.post('/matches', authorizeUser(["manager"]), asyncHandler(async (req, res) => {
     const match = new matchModel(req.body);
     await match.save();
-    res.status(201).end();
+    const todayDate = new Date();
+    const matches = await matchModel.find({ date: { $gt: todayDate } }).populate("homeTeam").populate("awayTeam").populate("stadium");
+    res.status(201).send(matches);
 }));
 
 app.post('/matches/:id', authorizeUser(["manager"]), asyncHandler(async (req, res) => {

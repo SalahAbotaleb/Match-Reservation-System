@@ -21,7 +21,7 @@ async function getStadiums() {
     return response.json();
 }
 
-export default function AddMatch({close}) {
+export default function AddMatch({close, setMatches}) {
     const [teams, setTeams] = useState([]);
     const [stadiums, setStadiums] = useState([]);
     const [homeTeam, setHomeTeam] = useState(null);
@@ -29,9 +29,9 @@ export default function AddMatch({close}) {
     const [stadium, setStadium] = useState(null);
     const [date, setDate] = useState(new Date().toISOString().split('T')[0] + 'T' + new Date().toISOString().split('T')[1].split('.')[0]);
     const [ticketPrice, setTicketPrice] = useState(0);
-    const [referee, setReferee] = useState(null);
-    const [linesman1, setLinesman1] = useState(null);
-    const [linesman2, setLinesman2] = useState(null);
+    const [referee, setReferee] = useState('');
+    const [linesman1, setLinesman1] = useState('');
+    const [linesman2, setLinesman2] = useState('');
 
     useEffect(() => {
         getTeams().then((data) => {
@@ -71,7 +71,7 @@ export default function AddMatch({close}) {
                     </Grid>
                     <Grid container item spacing={1} justifyContent={'center'}>
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
-                            <FormControl sx={{width: '50%'}}>
+                            <FormControl error={homeTeam === null} required sx={{width: '50%'}}>
                                 <InputLabel id="Hometeam">HomeTeam</InputLabel>
                                 <Select
                                     labelId="Hometeam"
@@ -86,7 +86,7 @@ export default function AddMatch({close}) {
                             </FormControl>
                         </Grid>
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
-                            <FormControl sx={{width: '50%'}}>
+                            <FormControl error={awayTeam === null} required sx={{width: '50%'}}>
                                 <InputLabel id="Awayteam">AwayTeam</InputLabel>
                                 <Select
                                     labelId="Awayteam"
@@ -102,7 +102,7 @@ export default function AddMatch({close}) {
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
-                            <FormControl sx={{width: '50%'}}>
+                            <FormControl error={stadium === null} required sx={{width: '50%'}}>
                                 <InputLabel id="Stadiums">Stadiums</InputLabel>
                                 <Select
                                     labelId="Stadiums"
@@ -119,6 +119,8 @@ export default function AddMatch({close}) {
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={date < new Date().toISOString().split('.')[0]}
+                                required
                                 label="Match Date"
                                 type="datetime-local"
                                 value={date}
@@ -128,45 +130,80 @@ export default function AddMatch({close}) {
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={ticketPrice === ''}
+                                required
                                 label="Ticket Price"
                                 type="number"
                                 value={ticketPrice}
-                                onChange={(event) => setTicketPrice(event.target.value)}
+                                onChange={(event) => {
+                                    if (event.target.value < 0) return;
+                                    setTicketPrice(event.target.value);
+                                }}
                             />
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={referee === ''}
+                                required
                                 label="referee"
                                 value={referee}
-                                onChange={(event) => setReferee(event.target.value)}
+                                onChange={(event) => {
+                                    if (!/^[a-zA-Z\s]+$/.test(event.target.value) && event.target.value !== '') return;
+                                    setReferee(event.target.value)
+                                }}
                             />
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={linesman1 === ''}
+                                required
                                 label={"Linesman 1"}
                                 value={linesman1}
-                                onChange={(event) => setLinesman1(event.target.value)}
+                                onChange={(event) => {
+                                    if (!/^[a-zA-Z\s]+$/.test(event.target.value) && event.target.value !== '') return;
+                                    setLinesman1(event.target.value)
+                                }}
                             />
                         </Grid>
 
                         <Grid item md={6} lg={4} container justifyContent={'center'}>
                             <TextField
+                                error={linesman2 === ''}
+                                required
                                 label={"Linesman 2"}
                                 value={linesman2}
-                                onChange={(event) => setLinesman2(event.target.value)}
+                                onChange={(event) => {
+                                    if (!/^[a-zA-Z\s]+$/.test(event.target.value) && event.target.value !== '') return;
+                                    setLinesman2(event.target.value)
+                                }}
                             />
                         </Grid>
 
                     </Grid>
                     <Grid item>
                         <Button variant={'contained'} onClick={() => {
+                            if (date < new Date().toISOString().split('.')[0]) {
+                                console.log(date);
+                                console.log(new Date().toISOString().split('.')[0]);
+                                alert("Date is in the past");
+                                return;
+                            }
+                            if (referee === '' || linesman1 === '' || linesman2 === '' || homeTeam === null || awayTeam === null || stadium === null || date === null || ticketPrice === '') {
+                                alert("fill all required fields");
+                                return;
+                            }
+                            if (homeTeam === awayTeam) {
+                                alert("Home team and away team can't be the same");
+                                return;
+                            }
                             fetch('http://localhost:3000/matches', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
+                                credentials: 'include',
                                 body: JSON.stringify({
                                     homeTeam: homeTeam,
                                     awayTeam: awayTeam,
@@ -177,12 +214,14 @@ export default function AddMatch({close}) {
                                     linesman: [linesman1, linesman2]
                                 }),
                             })
-                                .then(response => response.text())
+                                .then(response => response.json())
                                 .then(data => {
-                                    console.log('Success:', data);
+                                    alert('success');
+                                    close(false);
+                                    setMatches(data);
                                 })
                                 .catch((error) => {
-                                    console.error('Error:', error);
+                                    alert('error, try again');
                                 });
                         }}>Add Match</Button>
                     </Grid>

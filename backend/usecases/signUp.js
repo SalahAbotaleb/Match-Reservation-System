@@ -1,7 +1,7 @@
 const axios = require('axios');
 const qs = require('qs');
 let data = qs.stringify({
-    'username': 'moaaz2',
+    'username': 'moaaz',
     'password': 'moaaz',
     'firstName': 'moaaz',
     'lastName': 'moaaz',

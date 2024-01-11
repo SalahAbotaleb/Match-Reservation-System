@@ -7,8 +7,8 @@ const teamModel = require('../models/teamModel');
 
 const mongoose = require('mongoose');
 const userModel = require('../models/userModel');
-mongoose.connect('mongodb://127.0.0.1:27017/TicketReservation');
-const db = mongoose.connection;
+mongoose.connect('//');
+const db = mongoose.connection.useDb("TicketReservation");
 db.once("connected", () => {
     console.log("connected to db");
 });
@@ -92,7 +92,8 @@ const randomMatchesBuilder = async () => {
 }
 
 const seed = async () => {
-    await db.dropDatabase();
+    // await db.dropDatabase();
+    // await db.use("TicketReservation");
     await saveStadiums();
     await saveTeams();
     await randomMatchesBuilder();
