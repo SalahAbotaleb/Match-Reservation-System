@@ -219,8 +219,10 @@ app.delete('/users/:id/tickets/:ticketId', authorizeUser(["fan"]), asyncHandler(
     const threeDaysBeforeMatch = new Date();
     threeDaysBeforeMatch.setDate(ticketToRemove.match.date.getDate() - 3);
     const todayDate = new Date();
+    console.log(threeDaysBeforeMatch);
+    console.log(todayDate);
     if (threeDaysBeforeMatch <= todayDate) {
-        res.status(400).send("You can cancel your ticket only 3 days before the match");
+        return res.status(400).send("You can cancel your ticket only 3 days before the match");
     }
     await userModel.updateOne(
         { _id: req.params.id },

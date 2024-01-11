@@ -291,7 +291,7 @@ async function scenario() {
     await viewMatches();
     console.log("-----------------------------------");
     //await reserveSeats(cookie, "656a2ff0979ed0c0bd752527", [{ "row": 15, "column": 1 }]);
-    await cancelTickets("658de39bddb7065d122e6c7f", "65931d0d43bd2992808735b1", cookie)
+    await cancelTickets("658de39bddb7065d122e6c7f", "65931d0d43bd2992808735a9", cookie)
     await viewUserTickets("658de39bddb7065d122e6c7f", cookie);
     //viewReservationsAfter("656a2ff0979ed0c0bd752527", "2021-05-01");
 }
